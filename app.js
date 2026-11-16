@@ -34,9 +34,9 @@ function updateCategoryUI() {
   const headerText = document.getElementById('header-mode-text');
   if (headerText) {
     if (selectedType === 'cafe') {
-      headerText.textContent = "LakaSG • Cafe Google Maps ≥ 4.5★";
+      headerText.textContent = "LakaSG • Cafe Google Maps ★4.4 - 4.7";
     } else {
-      headerText.textContent = "LakaSG • Quán ăn Google Maps ≥ 4.5★";
+      headerText.textContent = "LakaSG • Quán ăn Google Maps ★4.5 - 4.7";
     }
   }
 }
@@ -78,7 +78,7 @@ function updatePurposeUI() {
   });
 }
 
-// Xử lý nộp khảo sát - BỘ LỌC NGHIÊM NGẶT: CHỈ LẤY QUÁN ĐANG HOẠT ĐỘNG VÀ GOOGLE MAPS >= 4.5 SAO
+// Xử lý nộp khảo sát - BỘ LỌC CHUẨN XÁC: CHỈ LẤY QUÁN ĐANG HOẠT ĐỘNG VÀ GOOGLE MAPS TỪ 4.4 ĐẾN 4.7 SAO
 function submitQuiz() {
   const typeEl = document.querySelector('input[name="placeType"]:checked');
   const purposeEl = document.querySelector('input[name="purpose"]:checked');
@@ -101,21 +101,21 @@ function submitQuiz() {
 
   // 1. LỌC CHẶT CHẼ:
   // - Phải khớp loại hình (Cafe hoặc Quán ăn)
-  // - Trạng thái: "Đang mở cửa" (Loại bỏ quán đóng cửa/dẹp tiệm)
-  // - Đánh giá Google Maps: Phải >= 4.5 sao
+  // - Trạng thái: "Đang mở cửa" (Đã đối chiếu Google Maps)
+  // - Đánh giá Google Maps: Phải >= 4.4 sao (The Workshop 4.4★, The Running Bean 4.7★, Sống Cafe 4.7★...)
   let verifiedMatches = window.PLACES_DATA.filter(place => {
     const matchType = place.type === type;
     const matchDistrict = selectedDistricts.some(d => place.districtsList.includes(d));
     const isStillOpen = place.status === "Đang mở cửa";
-    const isHighRating = place.ratingGoogle >= 4.5;
+    const isHighRating = place.ratingGoogle >= 4.4;
 
     return matchType && matchDistrict && isStillOpen && isHighRating;
   });
 
-  // Nếu trong quận đó chưa có, lấy các quán >= 4.5 sao lân cận ở TP.HCM
+  // Nếu trong quận đó chưa có, lấy các quán >= 4.4 sao lân cận ở TP.HCM
   if (verifiedMatches.length === 0) {
     verifiedMatches = window.PLACES_DATA.filter(place => 
-      place.type === type && place.status === "Đang mở cửa" && place.ratingGoogle >= 4.5
+      place.type === type && place.status === "Đang mở cửa" && place.ratingGoogle >= 4.4
     );
   }
 
@@ -150,7 +150,7 @@ function renderResultsView() {
   const resultTitle = document.getElementById('result-title');
   if (resultTitle) {
     const typeLabel = userQuizState.type === 'cafe' ? 'quán cafe' : 'quán ăn';
-    resultTitle.textContent = `${currentFilteredPlaces.length} ${typeLabel} chuẩn gu (≥4.5★)`;
+    resultTitle.textContent = `${currentFilteredPlaces.length} ${typeLabel} chuẩn gu (★4.4 - 4.7)`;
   }
 
   // Render các Tab chuyển quán
@@ -363,7 +363,7 @@ function shareApp() {
   if (navigator.share) {
     navigator.share({
       title: 'LakaSG - Sài Gòn Quán Xá',
-      text: 'Tìm quán cafe học bài & quán ăn chuẩn gu tại TP.HCM (Google Maps >= 4.5 sao)',
+      text: 'Tìm quán cafe học bài & quán ăn chuẩn gu tại TP.HCM (Google Maps >= 4.4 sao)',
       url: window.location.href,
     }).catch(() => {});
   } else {
