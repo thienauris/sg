@@ -1,425 +1,92 @@
-// Dữ liệu quán Cafe & Quán Ăn thật 100% tại TP.HCM
-// ĐÃ KIỂM TRA ĐỐI CHIẾU TRỰC TIẾP TỪNG ĐỊA ĐIỂM TRÊN GOOGLE MAPS
-// 100% QUÁN ĐANG MỞ CỬA HOẠT ĐỘNG THỰC TẾ, LOẠI BỎ TRIỆT ĐỂ MỌI QUÁN BỊ ĐÓNG CỬA VĨNH VIỄN/DẸP TIỆM
+// LakaSG – dữ liệu quán TP.HCM
+// Số sao, số review và tình trạng hoạt động lấy trực tiếp từ Google Maps ngày 16/11/2026.
+// Chỉ giữ quán: KHÔNG bị Google đánh dấu "đóng cửa vĩnh viễn / tạm thời", ★ >= 4.4, >= 300 review.
+// pid = Google Place ID, dùng để mở đúng quán trên Google Maps.
+// gu = điểm LakaSG tự chấm theo gu (không phải điểm Google): work = ngồi làm việc, chill = hẹn hò/thư giãn, taste = đồ ngon.
+
+window.CHECKED_AT = "16/11/2026";
 
 window.PLACES_DATA = [
-  // ========================== QUÁN CÀ PHÊ (ĐANG MỞ CỬA, ĐÁNH GIÁ CAO TỪ 4.4★ - 4.7★) ==========================
-  
-  // --- QUẬN 1 ---
-  {
-    id: "the-workshop-coffee",
-    name: "The Workshop Coffee",
-    type: "cafe",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Quán cafe specialty đầu tiên tại Sài Gòn, thiên đường cày việc & chạy deadline",
-    ratingGoogle: 4.4,
-    reviewCount: "4.178",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.4,
-    bestFor: "Cày việc, chạy deadline xuyên ngày & thưởng thức cafe pha tay",
-    scores: {
-      quiet: { score: 9.0, note: "Không gian loft trên lầu 2, đa số khách ngồi ôm laptop nên rất trật tự." },
-      facilities: { score: 9.8, note: "Bàn gỗ dài chuẩn làm việc, ổ điện bố trí từng ghế, Wi-Fi cực ổn định." },
-      foodDrink: { score: 9.3, note: "80k - 120k; cà phê Specialty pha tay (V60, Chemex, Cold Brew), có đồ ăn kiểu Âu." }
-    },
-    address: "Tầng 2, 27 Ngô Đức Kế, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/place/The+Workshop+Coffee/@10.7734764,106.7056037,17z/data=!3m1!4b1!4m6!3m5!1s0x31752f447738f717:0xad1665a5874aeefb!8m2!3d10.7734764!4d106.7056037!16s%2Fg%2F11b6d1sz2_",
-    bestTime: "9:00 - 16:30 các ngày trong tuần (ánh sáng tự nhiên ngập tràn)",
-    highlights: ["Google Maps 4.4★ (4.178 review)", "Ổ điện & Wi-Fi chuyên cày việc", "Specialty Coffee trứ danh"],
-    tags: ["Google 4.4★", "Ngồi lâu cày việc", "Bàn rộng ổ điện", "Cafe Specialty"]
-  },
-  {
-    id: "the-running-bean-ho-tung-mau",
-    name: "The Running Bean - Coffee & Brunch",
-    type: "cafe",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Không gian sang trọng, ánh sáng tự nhiên tuyệt đẹp, điểm hẹn cày việc & brunch đỉnh cao",
-    ratingGoogle: 4.7,
-    reviewCount: "5.300+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.7,
-    bestFor: "Làm việc sang chảnh, gặp đối tác, ăn brunch & cafe specialty",
-    scores: {
-      quiet: { score: 8.8, note: "Không gian nhiều tầng rộng thoáng, máy lạnh mát rượi, giữ trật tự tốt." },
-      facilities: { score: 9.7, note: "Bàn ghế cao cấp, ổ cắm bố trí chu đáo, Wi-Fi tốc độ cao mượt mà." },
-      foodDrink: { score: 9.6, note: "75k - 140k; cà phê chất lượng cao, sinh tố healthy và bánh ngọt cực phẩm." }
-    },
-    address: "115 Hồ Tùng Mậu, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Running+Bean+115+Ho+Tung+Mau+Quan+1",
-    bestTime: "8:00 - 11:30 sáng ánh sáng chan hòa",
-    highlights: ["Google Maps 4.7★ (5.300+ review)", "Brunch & Specialty Coffee", "Không gian sang trọng"],
-    tags: ["Google 4.7★", "Ngồi làm việc", "Sang trọng", "Brunch & Cafe"]
-  },
-  {
-    id: "okkio-dong-khoi",
-    name: "Okkio Caffe - Đồng Khởi",
-    type: "cafe",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Tone màu gạch nung ấm cúng hoài niệm trên phố đi bộ Đồng Khởi hoa lệ",
-    ratingGoogle: 4.6,
-    reviewCount: "1.200+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.4,
-    bestFor: "Gặp gỡ bạn bè, đọc sách, làm việc nhẹ 1-2 tiếng ngắm phố",
-    scores: {
-      quiet: { score: 8.9, note: "Nhạc jazz nhẹ thư giãn, buổi sáng tĩnh lặng, chiều tối lãng mạn." },
-      facilities: { score: 8.8, note: "Bàn ghế thiết kế tỉ mỉ, có ổ cắm điện, máy lạnh êm ái." },
-      foodDrink: { score: 9.5, note: "70k - 105k; cold brew cam sả và latte thơm béo, bánh pastry nướng tươi." }
-    },
-    address: "151 Đồng Khởi, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Okkio+Caffe+151+Dong+Khoi+Quan+1",
-    bestTime: "8:00 - 11:00 sáng thưởng thức không khí Sài Gòn",
-    highlights: ["Google Maps 4.6★ (1.200+ review)", "Phố Đồng Khởi", "Specialty Coffee"],
-    tags: ["Google 4.6★", "Không gian đẹp", "Cafe Specialty", "Trung tâm"]
-  },
-  {
-    id: "bang-khuang-cafe",
-    name: "Bâng Khuâng Café",
-    type: "cafe",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Góc chung cư cổ kính hoài niệm, bình yên giữa trung tâm hoa lệ",
-    ratingGoogle: 4.5,
-    reviewCount: "1.100+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.1,
-    bestFor: "Tìm không gian tĩnh lặng đọc sách, viết lách, hoài niệm",
-    scores: {
-      quiet: { score: 9.4, note: "Rất yên tĩnh và tách biệt hoàn toàn với tiếng còi xe bên dưới." },
-      facilities: { score: 8.2, note: "Bàn ghế gỗ mộc xưa cũ, ánh sáng vàng dịu mắt, có ổ cắm cho laptop." },
-      foodDrink: { score: 8.9, note: "45k - 70k; cafe sữa đá pha phin chuẩn vị Sài Gòn, có cơm trưa văn phòng ngon miệng." }
-    },
-    address: "Lầu 2, 9 Thái Văn Lung, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Bang+Khuang+Cafe+9+Thai+Van+Lung+Quan+1",
-    bestTime: "Buổi chiều 14:00 - 17:30 khi ánh nắng xiên qua khung cửa sổ",
-    highlights: ["Google Maps 4.5★ (1.100+ review)", "Chung cư cổ kính", "Nhạc trữ tình êm dịu"],
-    tags: ["Google 4.5★", "Rất yên tĩnh", "Vintage hoài niệm", "Đọc sách"]
-  },
+  // ===================== CÀ PHÊ =====================
+  // Quận 1
+  { name: "The Workshop Coffee", type: "cafe", district: "Quận 1", cat: "Specialty coffee", rating: 4.4, reviews: 4178, address: "27 Ngô Đức Kế, Q.1", pid: "ChIJdyfroEYvdTER2m7eTz44Bns", gu: { work: 9, chill: 7, taste: 8 }, verdict: "Xưởng cà phê trên lầu, bàn dài, khách ôm laptop đông – đúng chỗ cày deadline." },
+  { name: "The Running Bean", type: "cafe", district: "Quận 1", cat: "Cà phê & brunch", rating: 4.7, reviews: 6118, address: "115 Hồ Tùng Mậu, Q.1", pid: "ChIJ6Uq31EYvdTERN7N12l_J-yo", gu: { work: 8, chill: 8, taste: 8 }, verdict: "Rộng, sáng, có brunch – làm việc buổi sáng rồi ăn trưa luôn tại chỗ." },
+  { name: "Tonkin Specialty Coffee", type: "cafe", district: "Quận 1", cat: "Specialty coffee", rating: 4.8, reviews: 4830, address: "91 Lý Tự Trọng, Q.1", pid: "ChIJzaevQMcvdTERYE3UhLKg5NE", gu: { work: 6, chill: 7, taste: 9 }, verdict: "Dân mê hạt specialty nên ghé – điểm Google cao mà review rất dày." },
+  { name: "OKKIO Caffe Đồng Khởi", type: "cafe", district: "Quận 1", cat: "Cà phê", rating: 4.6, reviews: 541, address: "151 Đồng Khởi, Q.1", pid: "ChIJDQ1r0-svdTER10fnSvktlVw", gu: { work: 6, chill: 9, taste: 8 }, verdict: "Ngay trung tâm, không gian xinh – hẹn bạn 1–2 tiếng là hợp nhất." },
+  { name: "Soo Kafe Bến Thành", type: "cafe", district: "Quận 1", cat: "Cà phê", rating: 4.6, reviews: 2053, address: "35 Phan Chu Trinh, Q.1", pid: "ChIJLUnNLj8vdTERtZ0FtgSj9-A", gu: { work: 6, chill: 8, taste: 8 }, verdict: "Sát chợ Bến Thành, ghé nghỉ chân giữa buổi dạo phố rất tiện." },
+  { name: "Little HaNoi Egg Coffee", type: "cafe", district: "Quận 1", cat: "Cà phê trứng", rating: 4.8, reviews: 5764, address: "119/5 Phạm Ngũ Lão (lối Yersin), Q.1", pid: "ChIJqZ7MThYvdTERh6VZ5ryLuDk", gu: { work: 4, chill: 8, taste: 9 }, verdict: "Đến vì ly cà phê trứng kiểu Hà Nội – uống để thưởng thức, không phải để cày." },
 
-  // --- QUẬN 3 ---
-  {
-    id: "every-half-tu-xuong",
-    name: "Every Half Coffee Roasters - Tú Xương",
-    type: "cafe",
-    district: "Quận 3",
-    districtsList: ["Quận 3"],
-    tagline: "Không gian biệt thự sân vườn rợp bóng mát, cà phê Specialty rang mộc đỉnh chóp",
-    ratingGoogle: 4.7,
-    reviewCount: "1.600+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1507133750040-4a8f57021571?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.6,
-    bestFor: "Làm việc ngoài sân vườn hoặc phòng lạnh, người sành gu cà phê hạt mộc",
-    scores: {
-      quiet: { score: 9.2, note: "Khu biệt thự Tú Xương rợp bóng cây cổ thụ, khách ngồi làm việc trật tự và lịch sự." },
-      facilities: { score: 9.5, note: "Bàn ghế gỗ lớn ngồi thoải mái, ổ cắm bố trí hợp lý, Wi-Fi mượt mà." },
-      foodDrink: { score: 9.8, note: "65k - 110k; Cà phê hạt Arabica sơ chế đặc biệt, Cold brew trái cây, bánh ngọt tươi ngon." }
-    },
-    address: "6E Tú Xương, Phường Võ Thị Sáu, Quận 3",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Every+Half+Coffee+Roasters+6E+Tu+Xuong+Quan+3",
-    bestTime: "8:00 - 11:30 sáng đón gió trời mát rượi dưới bóng cây",
-    highlights: ["Google Maps 4.7★ (1.600+ review)", "Biệt thự Tú Xương rợp bóng cây", "Specialty Coffee đỉnh chóp"],
-    tags: ["Google 4.7★", "Sân vườn thoáng mát", "Ngồi làm việc", "Specialty Coffee"]
-  },
-  {
-    id: "epic-coffee-roaster-ngo-thoi-nhiem",
-    name: "Epic Coffee Roaster - Ngô Thời Nhiệm",
-    type: "cafe",
-    district: "Quận 3",
-    districtsList: ["Quận 3"],
-    tagline: "Không gian hiện đại, máy lạnh mát rượi, bàn ghế chuẩn chỉnh để cày deadline",
-    ratingGoogle: 4.5,
-    reviewCount: "700+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.3,
-    bestFor: "Tập trung cày việc, họp nhóm, ôm laptop cả ngày",
-    scores: {
-      quiet: { score: 9.1, note: "Không gian máy lạnh yên tĩnh, bàn kê cách quãng tạo sự riêng tư." },
-      facilities: { score: 9.6, note: "Bàn ghế công thái học ngồi êm lưng, ổ điện từng cụm bàn, Wi-Fi 2 băng tần tốc độ cao." },
-      foodDrink: { score: 9.3, note: "55k - 85k; Cà phê pha máy chuẩn gu đậm đà, trà trái cây thanh mát giải nhiệt." }
-    },
-    address: "49 Ngô Thời Nhiệm, Phường Võ Thị Sáu, Quận 3",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Epic+Coffee+Roaster+49+Ngo+Thoi+Nhiem+Quan+3",
-    bestTime: "Cả ngày, đặc biệt lý tưởng cho những buổi cày deadline dài",
-    highlights: ["Google Maps 4.5★ (700+ review)", "Bàn ghế êm chống mỏi", "Máy lạnh mát rượi ổ điện đầy đủ"],
-    tags: ["Google 4.5★", "Ngồi lâu cày việc", "Ổ cắm từng bàn", "Yên tĩnh"]
-  },
+  // Quận 3
+  { name: "Every Half Coffee Roasters – Tú Xương", type: "cafe", district: "Quận 3", cat: "Specialty coffee", rating: 4.7, reviews: 1614, address: "6E Tú Xương, Q.3", pid: "ChIJfWlc0YYvdTERTN5qKEvgQcM", gu: { work: 8, chill: 8, taste: 9 }, verdict: "Roastery có tiếng, cà phê chắc tay, ngồi làm việc lẫn tán gẫu đều ổn." },
+  { name: "Epic Coffee Roaster", type: "cafe", district: "Quận 3", cat: "Specialty coffee", rating: 4.5, reviews: 694, address: "49 Ngô Thời Nhiệm, Q.3", pid: "ChIJizoBS4ovdTEReKpg9EOx5xE", gu: { work: 7, chill: 7, taste: 8 }, verdict: "Góc rang xay nhỏ trên con đường rợp cây – yên vừa đủ để tập trung." },
+  { name: "Saigon Coffee Roastery", type: "cafe", district: "Quận 3", cat: "Specialty coffee", rating: 4.5, reviews: 823, address: "232/13 Võ Thị Sáu, Q.3", pid: "ChIJjdN6NR0vdTERWxIp9PGNd0U", gu: { work: 7, chill: 7, taste: 9 }, verdict: "Nằm trong hẻm nên tách tiếng xe – chỗ của người uống cà phê nghiêm túc." },
+  { name: "Cheo Leo Cafe", type: "cafe", district: "Quận 3", cat: "Cà phê vợt lâu đời", rating: 4.4, reviews: 1174, address: "109/36 Nguyễn Thiện Thuật, Q.3", pid: "ChIJh9llDR8vdTERBjmUkPp6GPk", gu: { work: 3, chill: 8, taste: 8 }, verdict: "Cà phê vợt trong hẻm, chất Sài Gòn xưa – đi để cảm, không để làm việc." },
+  { name: "Barista Collective", type: "cafe", district: "Quận 3", cat: "Specialty coffee", rating: 4.6, reviews: 944, address: "191 Trần Văn Đang, Q.3", pid: "ChIJp_4KrqQvdTERkOYqzlUySsQ", gu: { work: 7, chill: 7, taste: 9 }, verdict: "Quán của dân pha chế, menu specialty phong phú – hợp người sành vị." },
+  { name: "The Hummingbird Café & Roastery", type: "cafe", district: "Quận 3", cat: "Cà phê & roastery", rating: 4.6, reviews: 737, address: "103Bis Võ Thị Sáu, Q.3", pid: "ChIJ42LbhmovdTER40L9GxG-Jl4", gu: { work: 7, chill: 8, taste: 8 }, verdict: "Cân bằng giữa đẹp và ngon – ngồi lâu hay hẹn hò đều không lệch gu." },
 
-  // --- BÌNH THẠNH ---
-  {
-    id: "tron-saigon-cafe",
-    name: "Trốn - Sài Gòn Café (Ngô Tất Tố)",
-    type: "cafe",
-    district: "Bình Thạnh",
-    districtsList: ["Bình Thạnh"],
-    tagline: "Góc trốn bình yên nép mình trong hẻm, ngập tràn cây xanh và hương cafe thảo mộc",
-    ratingGoogle: 4.6,
-    reviewCount: "450+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.5,
-    bestFor: "Tìm chỗ trốn yên tĩnh, đọc sách, làm việc một mình không bị quấy rầy",
-    scores: {
-      quiet: { score: 9.7, note: "Nằm trong hẻm tĩnh lặng tuyệt đối, không tiếng còi xe, nhạc êm ái thư thái." },
-      facilities: { score: 9.1, note: "Bàn gỗ mộc mạc, nhiều góc ngồi riêng tư, máy lạnh mát dịu và Wi-Fi ổn định." },
-      foodDrink: { score: 9.6, note: "50k - 80k; Nổi tiếng với Cà phê Lavender, Matcha Latte và Cold brew ủ thảo mộc thơm lừng." }
-    },
-    address: "87B Ngô Tất Tố, Phường 21, Quận Bình Thạnh",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Tron+Sai+Gon+Cafe+87B+Ngo+Tat+To+Binh+Thanh",
-    bestTime: "9:00 - 15:30 khi cần sự yên tĩnh tuyệt đối để suy nghĩ hoặc sáng tạo",
-    highlights: ["Google Maps 4.6★ (450+ review)", "Góc trốn tĩnh lặng trong hẻm", "Cà phê Lavender độc bản"],
-    tags: ["Google 4.6★", "Rất yên tĩnh", "Trốn phố xá", "Matcha & Cold Brew"]
-  },
-  {
-    id: "bosgaurus-coffee-roasters",
-    name: "Bosgaurus Coffee Roasters - Saigon Pearl",
-    type: "cafe",
-    district: "Bình Thạnh",
-    districtsList: ["Bình Thạnh"],
-    tagline: "Biệt thự Specialty Coffee phong cách Bắc Âu sang trọng ven sông Sài Gòn",
-    ratingGoogle: 4.5,
-    reviewCount: "1.400+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1463797221720-6b07e6426c24?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.5,
-    bestFor: "Thưởng thức cafe đỉnh cao, gặp gỡ đối tác & không gian ven sông thoáng đãng",
-    scores: {
-      quiet: { score: 9.1, note: "Không gian biệt thự kính bên sông cực kỳ thoáng mát và yên bình." },
-      facilities: { score: 9.6, note: "Bàn ghế thiết kế hiện đại, máy lạnh mát rượi, chỗ đậu xe thoải mái." },
-      foodDrink: { score: 9.7, note: "75k - 140k; Cà phê hạt Arabica tuyển chọn, Pour-over chuẩn thi đấu, bánh ngọt tinh tế." }
-    },
-    address: "Biệt thự 1D5, Đường D5, Saigon Pearl, 92 Nguyễn Hữu Cảnh, Phường 22, Bình Thạnh",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Bosgaurus+Coffee+Roasters+Saigon+Pearl+Binh+Thanh",
-    bestTime: "Sáng sớm 7:30 - 10:00 ngắm sông đón nắng sớm",
-    highlights: ["Google Maps 4.5★ (1.400+ review)", "Biệt thự ven sông", "Specialty Coffee đỉnh chóp"],
-    tags: ["Google 4.5★", "Ven sông mát rượi", "Specialty Coffee", "Sang trọng"]
-  },
-  {
-    id: "cu-tren-cay-coffee",
-    name: "Cú Trên Cây Coffee",
-    type: "cafe",
-    district: "Bình Thạnh",
-    districtsList: ["Bình Thạnh"],
-    tagline: "Ốc đảo xanh rợp bóng mát tựa Đà Lạt thu nhỏ giữa lòng Sài Gòn",
-    ratingGoogle: 4.4,
-    reviewCount: "1.900+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1463797221720-6b07e6426c24?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.1,
-    bestFor: "Tránh nóng mùa hè, thư giãn giữa thiên nhiên cây cỏ và đọc sách",
-    scores: {
-      quiet: { score: 8.9, note: "Tiếng gió thổi qua tàng lá, tiếng chim hót nhẹ, tách biệt hoàn toàn khói bụi phố xá." },
-      facilities: { score: 8.3, note: "Bàn gỗ tự nhiên mộc mạc, nhiều góc ngồi dưới tán cây xanh mát mẻ." },
-      foodDrink: { score: 8.7, note: "45k - 68k; trà thảo mộc hoa cúc, cafe cốt dừa béo ngậy, sinh tố mát lạnh." }
-    },
-    address: "262 Ung Văn Khiêm, Phường 25, Quận Bình Thạnh",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Cu+Tren+Cay+Coffee+262+Ung+Van+Khiem+Binh+Thanh",
-    bestTime: "Buổi sáng 7:30 - 10:30 hoặc buổi chiều dịu mát",
-    highlights: ["Google Maps 4.4★ (1.900+ review)", "Rừng cây xanh mát", "Nuôi mèo thân thiện"],
-    tags: ["Google 4.4★", "Xanh mát thiên nhiên", "Đọc sách/Thư giãn", "Chill"]
-  },
+  // Bình Thạnh
+  { name: "Bosgaurus Coffee – Saigon Pearl", type: "cafe", district: "Bình Thạnh", cat: "Specialty coffee", rating: 4.5, reviews: 1406, address: "Biệt thự 1D5, Saigon Pearl, Bình Thạnh", pid: "ChIJFbNbZhkpdTEREnQAU62EGgY", gu: { work: 8, chill: 8, taste: 9 }, verdict: "Biệt thự rộng trong Saigon Pearl, cà phê rang tại chỗ – làm việc cả ngày được." },
+  { name: "Cú Trên Cây Coffee", type: "cafe", district: "Bình Thạnh", cat: "Cà phê học bài", rating: 4.4, reviews: 1889, address: "262 Ung Văn Khiêm, Bình Thạnh", pid: "ChIJSUxqhQ0ndTERuimyNs-6qY0", gu: { work: 8, chill: 6, taste: 6 }, verdict: "Sinh viên quanh Hutech, UEF hay ngồi học – giá mềm, ngồi lâu thoải mái." },
+  { name: "Bamos Coffee 24h", type: "cafe", district: "Bình Thạnh", cat: "Cà phê 24h", rating: 4.7, reviews: 2576, address: "69 Ngô Tất Tố, Bình Thạnh", pid: "ChIJfS0PNO0pdTER2U9eJatCYaA", gu: { work: 9, chill: 6, taste: 6 }, verdict: "Mở 24h – cứu tinh của dân chạy deadline xuyên đêm." },
+  { name: "COFFEE 24/24", type: "cafe", district: "Bình Thạnh", cat: "Cà phê 24h", rating: 4.9, reviews: 2605, address: "96 D5, Bình Thạnh", pid: "ChIJtR2E-PApdTERisXz_qR6vbQ", gu: { work: 9, chill: 6, taste: 6 }, verdict: "Đúng như tên, thức cùng anh tới sáng – điểm Google rất cao." },
+  { name: "PỜ Café", type: "cafe", district: "Bình Thạnh", cat: "Cà phê", rating: 4.8, reviews: 945, address: "160/27 Bùi Đình Túy, Bình Thạnh", pid: "ChIJ173rcQApdTEREFG-yhdodTs", gu: { work: 6, chill: 9, taste: 7 }, verdict: "Quán hẻm nhỏ xinh, nhẹ nhàng – hợp ngồi tâm sự hơn là mở laptop." },
+  { name: "Cà Kê Café", type: "cafe", district: "Bình Thạnh", cat: "Cà phê", rating: 4.5, reviews: 649, address: "29/12 Nguyễn Gia Trí (D2), Bình Thạnh", pid: "ChIJRUdImaUpdTERO15bESUfMdY", gu: { work: 6, chill: 8, taste: 7 }, verdict: "Đúng chất cà kê dê ngỗng – rủ bạn thân tới ngồi tán." },
 
-  // --- PHÚ NHUẬN ---
-  {
-    id: "the-dome-kaffe",
-    name: "The Dome Kaffe (ドームカフェ)",
-    type: "cafe",
-    district: "Phú Nhuận",
-    districtsList: ["Phú Nhuận"],
-    tagline: "Phong cách tối giản Minimalist đen - trắng kiểu Nhật, cực kỳ yên ắng và thanh nhã",
-    ratingGoogle: 4.5,
-    reviewCount: "450+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.2,
-    bestFor: "Tập trung học tập, đọc sách, chụp ảnh concept tối giản",
-    scores: {
-      quiet: { score: 9.4, note: "Nằm trong hẻm Đoàn Thị Điểm, khách nói chuyện khẽ khàng, không gian tĩnh lặng." },
-      facilities: { score: 9.1, note: "Bàn ghế tối giản sạch sẽ, điều hòa mát rượi, ánh sáng trắng nghệ thuật." },
-      foodDrink: { score: 9.2, note: "50k - 75k; Các món cà phê pha máy thơm ngon, bánh ngọt kiểu Nhật trang trí tinh tế." }
-    },
-    address: "10/16 Đoàn Thị Điểm, Phường 1, Quận Phú Nhuận",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Dome+Kaffe+10%2F16+Doan+Thi+Diem+Phu+Nhuan",
-    bestTime: "Buổi sáng 9:00 - 12:00 hoặc chiều 14:00 - 17:00",
-    highlights: ["Google Maps 4.5★ (450+ review)", "Tối giản đen trắng kiểu Nhật", "Yên tĩnh tập trung"],
-    tags: ["Google 4.5★", "Rất yên tĩnh", "Tối giản Minimalist", "Đọc sách/Làm việc"]
-  },
+  // Phú Nhuận
+  { name: "The Xi Cafe", type: "cafe", district: "Phú Nhuận", cat: "Cà phê", rating: 4.7, reviews: 990, address: "14E Đặng Văn Ngữ, Phú Nhuận", pid: "ChIJ-zOPgAUpdTERe7FLltfCx9Q", gu: { work: 7, chill: 8, taste: 7 }, verdict: "Điểm cao, review dày – an toàn cho cả làm việc lẫn hẹn hò." },
+  { name: "DOME ドームカフェ", type: "cafe", district: "Phú Nhuận", cat: "Cà phê kiểu Nhật", rating: 4.5, reviews: 454, address: "10/16 Đoàn Thị Điểm, Phú Nhuận", pid: "ChIJu5UG5y0pdTER8IbC9F2vpks", gu: { work: 8, chill: 7, taste: 7 }, verdict: "Phong cách Nhật trong hẻm, khách nói nhỏ – dễ vào guồng tập trung." },
+  { name: "Oasis Cafe – Koi Fish", type: "cafe", district: "Phú Nhuận", cat: "Cà phê sân vườn", rating: 4.5, reviews: 10809, address: "176/1B Lê Văn Sỹ, Phú Nhuận", pid: "ChIJbaeNZCspdTEREadFbltGF9s", gu: { work: 5, chill: 9, taste: 6 }, verdict: "Hồ cá koi, hơn 10 nghìn review – đưa người yêu đi ngắm cá là chắc ăn." },
+  { name: "Thanh Coffee", type: "cafe", district: "Phú Nhuận", cat: "Cà phê", rating: 4.5, reviews: 1322, address: "1 Nhiêu Tứ, Phú Nhuận", pid: "ChIJC6LjDwApdTERVqoQpm_NkGE", gu: { work: 7, chill: 7, taste: 7 }, verdict: "Quán quen của khu Nhiêu Tứ – không màu mè, ngồi lâu thoải mái." },
+  { name: "Chidori – Coffee in Bed", type: "cafe", district: "Phú Nhuận", cat: "Cà phê", rating: 4.5, reviews: 868, address: "06 Hoa Cau, Phú Nhuận", pid: "ChIJzRNiZkMpdTER0XJoBZ2QEcc", gu: { work: 4, chill: 9, taste: 7 }, verdict: "Ngồi nệm như ở nhà – chill, đọc sách, chứ đừng mang deadline tới." },
+  { name: "The Comma", type: "cafe", district: "Phú Nhuận", cat: "Cà phê", rating: 4.5, reviews: 632, address: "21 Hoa Mai, Phú Nhuận", pid: "ChIJq-gjtPspdTERingY2rxYXj0", gu: { work: 7, chill: 8, taste: 7 }, verdict: "Một dấu phẩy giữa ngày – khu Hoa Mai yên, hợp làm việc nhẹ." },
 
-  // --- THỦ ĐỨC / THẢO ĐIỀN ---
-  {
-    id: "the-snap-cafe",
-    name: "The Snap Cafe & Restaurant",
-    type: "cafe",
-    district: "Thủ Đức / Thảo Điền",
-    districtsList: ["Thủ Đức / Thảo Điền"],
-    tagline: "Khu vườn ẩm thực phong cách Tây Âu phóng khoáng giữa lòng Thảo Điền",
-    ratingGoogle: 4.6,
-    reviewCount: "2.800+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.4,
-    bestFor: "Brunch cuối tuần, gặp gỡ bạn bè quốc tế & thư giãn gia đình",
-    scores: {
-      quiet: { score: 8.6, note: "Không gian mở rộng thênh thang, gió mát tự nhiên, văn minh và lịch sự." },
-      facilities: { score: 9.3, note: "Bàn ghế gỗ lớn, nhiều khu vực riêng biệt, quầy bar và sân chơi cho trẻ nhỏ." },
-      foodDrink: { score: 9.6, note: "85k - 200k; đồ ăn Tây siêu chuẩn (Eggs Benedict, burger, pasta), cocktail & cafe ngon." }
-    },
-    address: "32 Trần Ngọc Diện, Thảo Điền, TP. Thủ Đức",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=The+Snap+Cafe+32+Tran+Ngoc+Dien+Thao+Dien",
-    bestTime: "Sáng cuối tuần 8:30 - 12:30 thưởng thức brunch ngoài trời",
-    highlights: ["Google Maps 4.6★ (2.800+ review)", "Style Tây Âu phóng khoáng", "Thân thiện thú cưng"],
-    tags: ["Google 4.6★", "Ăn ngon & Uống", "Thảo Điền/Tây", "Sân vườn"]
-  },
+  // Thảo Điền
+  { name: "XLIII Specialty Coffee", type: "cafe", district: "Thảo Điền", cat: "Specialty coffee", rating: 5.0, reviews: 3579, address: "19 Đường số 2, Làng Báo, Thảo Điền", pid: "ChIJj1QO7EQndTERNrMVJRqmUyU", gu: { work: 7, chill: 8, taste: 10 }, verdict: "5.0★ trên hơn 3.500 review – hiếm quán nào giữ được điểm này." },
+  { name: "Café Slow Thảo Điền", type: "cafe", district: "Thảo Điền", cat: "Cà phê", rating: 4.5, reviews: 725, address: "39 Lê Văn Miến, Thảo Điền", pid: "ChIJPewRCkIndTERemsRdznN_nE", gu: { work: 7, chill: 9, taste: 7 }, verdict: "Đúng tên – chậm lại, ngồi cả buổi chiều không ai hối." },
+  { name: "OKKIO Caffe Thảo Điền", type: "cafe", district: "Thảo Điền", cat: "Cà phê", rating: 4.5, reviews: 609, address: "110 Xuân Thủy, Thảo Điền", pid: "ChIJ5818SKQndTERr-cMa-oJEu0", gu: { work: 7, chill: 8, taste: 8 }, verdict: "Bản Thảo Điền của OKKIO – rộng hơn, dễ kiếm bàn hơn chi nhánh Q.1." },
+  { name: "Aramour Coffee Roasters", type: "cafe", district: "Thảo Điền", cat: "Specialty coffee", rating: 4.5, reviews: 682, address: "7 Lê Văn Miến, Thảo Điền", pid: "ChIJyx8_wRwndTERRWGeFd1cwt0", gu: { work: 7, chill: 7, taste: 9 }, verdict: "Roastery cho người kén hạt – gọi pour-over là đúng bài." },
+  { name: "Faro Cafe – Thảo Điền Villa", type: "cafe", district: "Thảo Điền", cat: "Cà phê biệt thự", rating: 4.6, reviews: 476, address: "81 Xuân Thủy, Thảo Điền", pid: "ChIJMUoy_uAndTERwJOULyC2gug", gu: { work: 6, chill: 9, taste: 7 }, verdict: "Biệt thự xanh mát – chụp ảnh, hẹn hò cuối tuần rất ăn ảnh." },
+  { name: "Dolphy Café", type: "cafe", district: "Thảo Điền", cat: "Cà phê", rating: 4.6, reviews: 523, address: "23 Nguyễn Văn Hưởng, Thảo Điền", pid: "ChIJrWa4iOEndTERRZcOzztEmSI", gu: { work: 7, chill: 8, taste: 7 }, verdict: "Khúc Nguyễn Văn Hưởng vắng xe – ngồi làm việc khá yên." },
 
-  // ========================== QUÁN ĂN NGON (ĐANG MỞ CỬA, TIẾNG TĂM LỪNG LẪY SÀI GÒN) ==========================
-  {
-    id: "pizza-4ps-hai-ba-trung",
-    name: "Pizza 4P's - Hai Bà Trưng",
-    type: "food",
-    district: "Quận 1",
-    districtsList: ["Quận 1", "Quận 3"],
-    tagline: "Đỉnh cao Pizza nướng củi, phô mai Burrata tự làm và dịch vụ Omotenashi 5 sao",
-    ratingGoogle: 4.7,
-    reviewCount: "6.200+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.7,
-    bestFor: "Hẹn hò lãng mạn, sinh nhật & họp mặt người thân yêu",
-    scores: {
-      quiet: { score: 8.8, note: "Thiết kế ánh sáng ấm áp tinh tế, quầy bếp mở nướng bánh trực tiếp trước mắt thực khách." },
-      facilities: { score: 9.8, note: "Bàn ghế sang trọng, máy lạnh êm dịu, phục vụ tận tâm chu đáo từng ly nước." },
-      foodDrink: { score: 9.8, note: "200k - 350k/người; Pizza 4 loại phô mai mật ong, Mì cua sốt kem béo ngậy trứ danh." }
-    },
-    address: "151 Hai Bà Trưng, Phường Võ Thị Sáu, Quận 3 (Giáp ranh Quận 1)",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Pizza+4Ps+151+Hai+Ba+Trung+TPHCM",
-    bestTime: "Nên đặt bàn trước qua web/app để có vị trí đẹp nhất",
-    highlights: ["Google Maps 4.7★ (6.200+ review)", "Mì cua & Pizza 4 Cheese huyền thoại", "Dịch vụ chuẩn Nhật"],
-    tags: ["Google 4.7★", "Ăn ngon & Sang trọng", "Hẹn hò/Kỷ niệm", "Dịch vụ 5 sao"]
-  },
-  {
-    id: "dim-tu-tac-dong-du",
-    name: "Dim Tu Tac - Đông Du",
-    type: "food",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Ẩm thực Quảng Đông cao cấp, dimsum làm thủ công nóng hổi chuẩn vị",
-    ratingGoogle: 4.5,
-    reviewCount: "2.100+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.4,
-    bestFor: "Ăn dimsum gia đình sum vầy, tiếp khách trang trọng",
-    scores: {
-      quiet: { score: 8.4, note: "Không gian nhà hàng sang trọng, máy lạnh mát rượi, giữ gìn vệ sinh tuyệt hảo." },
-      facilities: { score: 9.5, note: "Bàn tròn xoay lớn cho gia đình, có phòng riêng VIP tiếp khách." },
-      foodDrink: { score: 9.7, note: "250k - 450k/người; Há cảo tôm tươi giòn sần sật, Vịt quay Bắc Kinh da giòn tan." }
-    },
-    address: "55 Đông Du, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Dim+Tu+Tac+55+Dong+Du+Quan+1",
-    bestTime: "Buổi trưa 11:00 - 13:30 thưởng thức trọn vẹn menu dimsum tươi",
-    highlights: ["Google Maps 4.5★ (2.100+ review)", "Dimsum thủ công nóng hổi", "Không gian sang trọng"],
-    tags: ["Google 4.5★", "Ẩm thực Quảng Đông", "Ăn uống gia đình", "Tiếp khách"]
-  },
-  {
-    id: "com-tam-ba-ghien",
-    name: "Cơm Tấm Ba Ghiền",
-    type: "food",
-    district: "Phú Nhuận",
-    districtsList: ["Phú Nhuận"],
-    tagline: "Huyền thoại sườn nướng khổng lồ che kín đĩa cơm, vinh danh Michelin Bib Gourmand",
-    ratingGoogle: 4.5,
-    reviewCount: "7.800+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.3,
-    bestFor: "Trải nghiệm đặc sản cơm tấm số 1 Sài Gòn, ăn no đẫy đà",
-    scores: {
-      quiet: { score: 7.4, note: "Quán ăn bình dân cực kỳ tấp nập khách, khói nướng sườn thơm phức ngào ngạt." },
-      facilities: { score: 8.0, note: "Quán rộng rãi, bàn inox sạch sẽ, nhân viên phục vụ thoăn thoắt lên món nhanh." },
-      foodDrink: { score: 9.8, note: "85k - 130k/dĩa; Miếng sườn to dày cắn ngập răng, ướp đậm đà, nước mắm kẹo đỉnh cao." }
-    },
-    address: "84 Đặng Văn Ngữ, Phường 10, Quận Phú Nhuận",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Com+Tam+Ba+Ghien+84+Dang+Van+Ngu+Phu+Nhuan",
-    bestTime: "Sáng 8:00 - 10:30 hoặc trước 11:30 trưa để không phải xếp hàng",
-    highlights: ["Google Maps 4.5★ (7.800+ review)", "Michelin Bib Gourmand", "Sườn nướng to nhất Sài Gòn"],
-    tags: ["Google 4.5★", "Michelin Bib", "Đặc sản Sài Gòn", "Ăn no nê"]
-  },
-  {
-    id: "quan-bui-original",
-    name: "Quán Bụi - Original (Ngô Văn Năm)",
-    type: "food",
-    district: "Quận 1",
-    districtsList: ["Quận 1"],
-    tagline: "Mâm cơm nhà Việt Nam thuần túy, nâng tầm trong không gian Đông Dương sang nhã",
-    ratingGoogle: 4.6,
-    reviewCount: "3.500+",
-    status: "Đang mở cửa",
-    images: [
-      "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=800&q=80"
-    ],
-    overallScore: 9.5,
-    bestFor: "Ăn cơm trưa gia đình, chiêu đãi khách phương xa & bạn bè quốc tế",
-    scores: {
-      quiet: { score: 8.9, note: "Không gian máy lạnh cổ điển phong cách Indochine ấm cúng, nhạc Trịnh êm đềm." },
-      facilities: { score: 9.5, note: "Bát đĩa gốm mộc mạc tinh xảo, bàn ghế gỗ đầm ấm, phục vụ lịch thiệp." },
-      foodDrink: { score: 9.6, note: "150k - 280k/người; Thịt kho cơm cháy, canh cua rau đay, cá kho tộ đậm đà quê nhà." }
-    },
-    address: "19 Ngô Văn Năm, Phường Bến Nghé, Quận 1",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Quan+Bui+19+Ngo+Van+Nam+Quan+1",
-    bestTime: "Buổi trưa 11:30 - 13:30 hoặc bữa tối ấm cúng",
-    highlights: ["Google Maps 4.6★ (3.500+ review)", "Món Việt thuần túy tuyệt ngon", "Không gian Indochine"],
-    tags: ["Google 4.6★", "Cơm nhà Việt Nam", "Indochine sang trọng", "Michelin Guide"]
-  }
+  // ===================== QUÁN ĂN =====================
+  // Quận 1
+  { name: "Dim Tu Tac – Đông Du", type: "food", district: "Quận 1", cat: "Dimsum Quảng Đông", rating: 4.5, reviews: 4865, address: "55 Đông Du, Q.1", pid: "ChIJO5FZBkIvdTER0RBWzFc-6NQ", gu: { work: 3, chill: 8, taste: 9 }, verdict: "Dimsum đông khách, đi nhóm gọi nhiều xửng chia nhau là vui nhất." },
+  { name: "Propaganda", type: "food", district: "Quận 1", cat: "Món Việt", rating: 4.4, reviews: 4861, address: "21 Hàn Thuyên, Q.1", pid: "ChIJ2-WrjTcvdTERNwe9MG_XXGM", gu: { work: 3, chill: 8, taste: 8 }, verdict: "Món Việt bày đẹp, tường tranh cổ động, ngay cạnh Nhà thờ Đức Bà." },
+  { name: "MANA Station – Tiệm Ăn Món Việt", type: "food", district: "Quận 1", cat: "Món Việt", rating: 4.6, reviews: 843, address: "57 Hai Bà Trưng, Q.1", pid: "ChIJu5OhvtMvdTERBiJ0Bxi-X3I", gu: { work: 3, chill: 7, taste: 8 }, verdict: "Cơm món Việt gọn gàng giữa trung tâm – ăn trưa văn phòng ổn áp." },
+  { name: "Bánh Canh Cua 87", type: "food", district: "Quận 1", cat: "Bánh canh cua", rating: 4.4, reviews: 1322, address: "87 Trần Khắc Chân, Q.1", pid: "ChIJBYD4rjgpdTERYZY2MCqxlio", gu: { work: 1, chill: 5, taste: 9 }, verdict: "Tô bánh canh cua đậm, đầy topping – món đặc sản phải thử." },
+  { name: "Hàng Dương Quán", type: "food", district: "Quận 1", cat: "Nhà hàng", rating: 4.5, reviews: 728, address: "32-34 Ngô Đức Kế, Q.1", pid: "ChIJ8bkqqCpTaDERsRgpzDYTR18", gu: { work: 2, chill: 7, taste: 8 }, verdict: "Ăn xong bước qua The Workshop uống cà phê – combo phố Ngô Đức Kế." },
+  { name: "Nhà hàng Mandarine", type: "food", district: "Quận 1", cat: "Món Việt sang trọng", rating: 4.4, reviews: 762, address: "11A Ngô Văn Năm, Q.1", pid: "ChIJuQl4J08vdTERgWe1mE_kEmA", gu: { work: 2, chill: 9, taste: 8 }, verdict: "Không gian nhà xưa sang trọng – dành cho dịp đặc biệt hoặc tiếp khách." },
+
+  // Quận 3
+  { name: "Pizza 4P's Hai Bà Trưng", type: "food", district: "Quận 3", cat: "Pizza", rating: 4.9, reviews: 25236, address: "151A-151B Hai Bà Trưng, Q.3", pid: "ChIJC-nWiTYvdTERGMJvRSoZ2f4", gu: { work: 2, chill: 9, taste: 10 }, verdict: "4.9★ trên hơn 25 nghìn review – nên đặt bàn trước giờ cao điểm." },
+  { name: "Hum Signature", type: "food", district: "Quận 3", cat: "Nhà hàng chay", rating: 4.6, reviews: 5028, address: "34 Võ Văn Tần, Q.3", pid: "ChIJiyyZnzAvdTER1sKiGy0rPCE", gu: { work: 2, chill: 9, taste: 8 }, verdict: "Chay mà sang, không gian xanh yên – dẫn người ăn kiêng đi là ghi điểm." },
+  { name: "Lil' Sago – Hotpot & more", type: "food", district: "Quận 3", cat: "Lẩu", rating: 4.7, reviews: 1804, address: "299 Võ Văn Tần, Q.3", pid: "ChIJSSR7ESMvdTERBpAzEc3_N24", gu: { work: 1, chill: 8, taste: 8 }, verdict: "Lẩu cho hội bạn tối mưa – điểm Google cao, review dày." },
+
+  // Bình Thạnh
+  { name: "Ram Quảng Ngon", type: "food", district: "Bình Thạnh", cat: "Đặc sản Quảng", rating: 4.5, reviews: 1102, address: "55 hẻm 36 D2, Bình Thạnh", pid: "ChIJvU_-kKQodTERjeH08rei_FA", gu: { work: 1, chill: 6, taste: 9 }, verdict: "Ram cuốn cải, mì Quảng – đúng vị miền Trung giữa Sài Gòn." },
+  { name: "Nhà hàng Thị Tấm", type: "food", district: "Bình Thạnh", cat: "Món Việt", rating: 4.4, reviews: 1895, address: "38 D5, Bình Thạnh", pid: "ChIJsfgdPqModTERXuZdETNZCWA", gu: { work: 2, chill: 7, taste: 8 }, verdict: "Cơm nhà kiểu Việt, ăn gia đình hay nhóm bạn đều hợp." },
+  { name: "Tiệm ăn Gặm", type: "food", district: "Bình Thạnh", cat: "Món gà", rating: 4.5, reviews: 561, address: "8/10 Nguyễn Thiện Thuật, Bình Thạnh", pid: "ChIJA6DClKcpdTERosE1J-kaHqU", gu: { work: 1, chill: 6, taste: 8 }, verdict: "Chuyên gà, ngồi gặm cho đã – tiệm nhỏ mà được chấm cao." },
+  { name: "Quán Sáu Tỷ", type: "food", district: "Bình Thạnh", cat: "Món cá, ven sông", rating: 4.4, reviews: 461, address: "129/19 Bình Quới, Thanh Đa", pid: "ChIJaVGPD4spdTERVCJOQoNqu7w", gu: { work: 1, chill: 8, taste: 8 }, verdict: "Ăn cá ở bán đảo Thanh Đa – xa trung tâm nhưng đáng chạy xe." },
+  { name: "Quán Nhậu 256", type: "food", district: "Bình Thạnh", cat: "Quán nhậu", rating: 4.5, reviews: 400, address: "256 Nguyễn Gia Trí (D2), Bình Thạnh", pid: "ChIJAcLMbQApdTERpGPiAXOQF-8", gu: { work: 1, chill: 7, taste: 8 }, verdict: "Lai rai sau giờ làm khu D2 – mồi được khen nhiều." },
+
+  // Phú Nhuận
+  { name: "Tám Riêu – Phan Xích Long", type: "food", district: "Phú Nhuận", cat: "Bún riêu, lẩu cua", rating: 4.8, reviews: 2143, address: "235 Phan Xích Long, Phú Nhuận", pid: "ChIJ6a85G0QpdTERuHywhPCTLkc", gu: { work: 1, chill: 7, taste: 9 }, verdict: "Riêu cua là món chủ lực, 4.8★ – Phan Xích Long ăn món Việt là đây." },
+  { name: "Man Tang Guo", type: "food", district: "Phú Nhuận", cat: "Lẩu", rating: 4.7, reviews: 2045, address: "169-171 Phan Xích Long, Phú Nhuận", pid: "ChIJq_WrgjkpdTEReUSj_mNbzi4", gu: { work: 1, chill: 8, taste: 8 }, verdict: "Lẩu đông vui cho hội bạn, review khen đều tay." },
+  { name: "TIỆM LẨU 1996", type: "food", district: "Phú Nhuận", cat: "Lẩu", rating: 4.9, reviews: 1217, address: "29 Nguyễn Đình Chiểu, Phú Nhuận", pid: "ChIJc_jCGoQpdTERtFMwfNvkKhs", gu: { work: 1, chill: 8, taste: 9 }, verdict: "4.9★ trên hơn 1.200 review – lẩu mà điểm cao cỡ này thì đáng thử." },
+  { name: "Haru Sushi Phú Nhuận", type: "food", district: "Phú Nhuận", cat: "Sushi", rating: 4.5, reviews: 1963, address: "211-213 Phan Xích Long, Phú Nhuận", pid: "ChIJPzxAYNAodTERuy_Rrv9pKg0", gu: { work: 2, chill: 8, taste: 8 }, verdict: "Sushi giá dễ chịu, hẹn hò nhẹ nhàng hợp lý." },
+  { name: "Aroy Thái", type: "food", district: "Phú Nhuận", cat: "Món Thái", rating: 4.6, reviews: 816, address: "86 Hoa Cúc, Phú Nhuận", pid: "ChIJKQgDnp4pdTERP8txddtR6Pk", gu: { work: 1, chill: 7, taste: 8 }, verdict: "Chua cay kiểu Thái trong khu Hoa Cúc – đổi gió cực ổn." },
+
+  // Thảo Điền
+  { name: "Madame Lam", type: "food", district: "Thảo Điền", cat: "Món Việt", rating: 4.8, reviews: 2028, address: "10 Trần Ngọc Diện, Thảo Điền", pid: "ChIJEYKTCNondTERAbSWd7LtfQc", gu: { work: 2, chill: 9, taste: 9 }, verdict: "Món Việt bày biện tinh tế – dẫn khách nước ngoài là chuẩn." },
+  { name: "ZumWhere Thảo Điền", type: "food", district: "Thảo Điền", cat: "Izakaya", rating: 4.8, reviews: 2463, address: "17 Trần Ngọc Diện, Thảo Điền", pid: "ChIJhZ21BDondTERFidurn2E0dc", gu: { work: 1, chill: 9, taste: 9 }, verdict: "Izakaya hiện đại, đồ nướng + đồ uống – tối thứ Sáu là hợp." },
+  { name: "Mặn Mòi Thảo Điền", type: "food", district: "Thảo Điền", cat: "Món Việt", rating: 4.6, reviews: 1559, address: "32 Đường số 11, Thảo Điền", pid: "ChIJzyToihQmdTERk5dktz1npps", gu: { work: 2, chill: 8, taste: 8 }, verdict: "Cơm Việt đậm đà trong khu Tây – đúng tên, ăn là nhớ." },
+  { name: "La Lola Thảo Điền", type: "food", district: "Thảo Điền", cat: "Địa Trung Hải", rating: 4.8, reviews: 779, address: "80 Xuân Thủy, Thảo Điền", pid: "ChIJu0ExLAAndTERHNWH2Y8Lnco", gu: { work: 2, chill: 9, taste: 9 }, verdict: "Tapas Địa Trung Hải, không khí hẹn hò lãng mạn." },
+  { name: "Pasta Fresca Thảo Điền", type: "food", district: "Thảo Điền", cat: "Món Ý", rating: 4.5, reviews: 863, address: "28 Thảo Điền", pid: "ChIJ9Z0ZRiImdTERhg22J1qFLdg", gu: { work: 2, chill: 8, taste: 8 }, verdict: "Mì Ý tươi làm tại chỗ – bữa tối nhẹ nhàng cho hai người." },
+  { name: "Matsuri Vincom Thảo Điền", type: "food", district: "Thảo Điền", cat: "Món Nhật", rating: 4.8, reviews: 1491, address: "Vincom Mega Mall, 161 Võ Nguyên Giáp", pid: "ChIJ8X-sLlIndTERQPWwyAptWpM", gu: { work: 2, chill: 7, taste: 8 }, verdict: "Trong Vincom, dễ gửi xe – ăn Nhật xong đi dạo mall luôn." }
 ];
+
+window.PLACES_DATA.forEach((p, i) => {
+  p.id = "p" + i;
+  p.mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.name) + "&query_place_id=" + p.pid;
+  p.dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(p.name) + "&destination_place_id=" + p.pid;
+});

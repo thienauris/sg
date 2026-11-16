@@ -1,373 +1,156 @@
-// Quản lý trạng thái và logic ứng dụng Sài Gòn Quán Xá (LakaSG - 1-Screen Mobile)
-let currentFilteredPlaces = [];
-let activePlaceIndex = 0;
-let userQuizState = {
-  type: 'cafe',
-  districts: ['Quận 1', 'Quận 3'],
-  purpose: 'work'
-};
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const PLACES = window.PLACES_DATA || [];
+  const state = { type: "cafe", districts: new Set(), purpose: "work", list: [], idx: 0 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  updateCategoryUI();
-  updateDistrictPillsUI();
-  updatePurposeUI();
-});
-
-// Cập nhật giao diện khi chọn Cà phê hoặc Quán ăn
-function updateCategoryUI() {
-  const selectedTypeEl = document.querySelector('input[name="placeType"]:checked');
-  if (!selectedTypeEl) return;
-  const selectedType = selectedTypeEl.value;
-  const cards = document.querySelectorAll('.category-card');
-  
-  cards.forEach(card => {
-    const radio = card.querySelector('input[type="radio"]');
-    if (radio && radio.checked) {
-      card.classList.add('border-sage-700', 'bg-sage-50');
-      card.classList.remove('border-cream-300', 'bg-white');
-    } else {
-      card.classList.remove('border-sage-700', 'bg-sage-50');
-      card.classList.add('border-cream-300', 'bg-white');
-    }
-  });
-
-  const headerText = document.getElementById('header-mode-text');
-  if (headerText) {
-    if (selectedType === 'cafe') {
-      headerText.textContent = "LakaSG • Cafe Google Maps ★4.4 - 4.7";
-    } else {
-      headerText.textContent = "LakaSG • Quán ăn Google Maps ★4.5 - 4.7";
-    }
-  }
-}
-
-// Cập nhật giao diện Pills chọn Quận (Trượt ngang)
-function updateDistrictPillsUI() {
-  const pills = document.querySelectorAll('.district-pill');
-  let count = 0;
-  pills.forEach(pill => {
-    const cb = pill.querySelector('input[type="checkbox"]');
-    if (cb && cb.checked) {
-      count++;
-      pill.classList.add('border-sage-700', 'bg-sage-100', 'text-sage-800');
-      pill.classList.remove('border-cream-300', 'bg-white', 'text-stone-700');
-    } else {
-      pill.classList.remove('border-sage-700', 'bg-sage-100', 'text-sage-800');
-      pill.classList.add('border-cream-300', 'bg-white', 'text-stone-700');
-    }
-  });
-
-  const countEl = document.getElementById('selected-districts-count');
-  if (countEl) {
-    countEl.textContent = count > 0 ? `Đã chọn ${count} khu vực` : 'Chưa chọn khu vực';
-  }
-}
-
-// Cập nhật giao diện Cards chọn Nhu cầu (Carousel ngang)
-function updatePurposeUI() {
-  const cards = document.querySelectorAll('.purpose-card');
-  cards.forEach(card => {
-    const radio = card.querySelector('input[type="radio"]');
-    if (radio && radio.checked) {
-      card.classList.add('border-sage-700', 'bg-sage-50');
-      card.classList.remove('border-cream-300', 'bg-white');
-    } else {
-      card.classList.remove('border-sage-700', 'bg-sage-50');
-      card.classList.add('border-cream-300', 'bg-white');
-    }
-  });
-}
-
-// Xử lý nộp khảo sát - BỘ LỌC CHUẨN XÁC: CHỈ LẤY QUÁN ĐANG HOẠT ĐỘNG VÀ GOOGLE MAPS TỪ 4.4 ĐẾN 4.7 SAO
-function submitQuiz() {
-  const typeEl = document.querySelector('input[name="placeType"]:checked');
-  const purposeEl = document.querySelector('input[name="purpose"]:checked');
-  const type = typeEl ? typeEl.value : 'cafe';
-  const purpose = purposeEl ? purposeEl.value : 'work';
-  
-  const districtCheckboxes = document.querySelectorAll('input[name="districts"]:checked');
-  const selectedDistricts = Array.from(districtCheckboxes).map(cb => cb.value);
-
-  if (selectedDistricts.length === 0) {
-    alert("Anh yêu chọn ít nhất một khu vực nhé!");
-    return;
-  }
-
-  userQuizState = {
-    type,
-    districts: selectedDistricts,
-    purpose
+  const PURPOSE = {
+    work: { label: "Làm việc", key: "work" },
+    chill: { label: "Chill / hẹn hò", key: "chill" },
+    taste: { label: "Đồ uống / món ngon", key: "taste" }
   };
+  const GRADS = [
+    ["#2D5A40", "#5B8C6E"], ["#6B4A3A", "#B07D5B"], ["#3B4C6B", "#6D86B0"],
+    ["#7A3E48", "#C0727E"], ["#4A5A2D", "#8AA05B"], ["#5A3D6B", "#9474AE"]
+  ];
+  const EMOJI = { cafe: ["☕", "🫖", "🥐", "🧋"], food: ["🍜", "🍲", "🍣", "🥢"] };
 
-  // 1. LỌC CHẶT CHẼ:
-  // - Phải khớp loại hình (Cafe hoặc Quán ăn)
-  // - Trạng thái: "Đang mở cửa" (Đã đối chiếu Google Maps)
-  // - Đánh giá Google Maps: Phải >= 4.4 sao (The Workshop 4.4★, The Running Bean 4.7★, Sống Cafe 4.7★...)
-  let verifiedMatches = window.PLACES_DATA.filter(place => {
-    const matchType = place.type === type;
-    const matchDistrict = selectedDistricts.some(d => place.districtsList.includes(d));
-    const isStillOpen = place.status === "Đang mở cửa";
-    const isHighRating = place.ratingGoogle >= 4.4;
+  const fmt = (n) => n.toLocaleString("vi-VN");
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-    return matchType && matchDistrict && isStillOpen && isHighRating;
+  // ---------- quiz ----------
+  function single(groupId, key) {
+    $(groupId).addEventListener("click", (e) => {
+      const b = e.target.closest("[data-v]");
+      if (!b) return;
+      [...$(groupId).children].forEach((x) => x.classList.toggle("on", x === b));
+      state[key] = b.dataset.v;
+      updateFoot();
+    });
+  }
+  single("type", "type");
+  single("purpose", "purpose");
+
+  $("districts").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-v]");
+    if (!b) return;
+    const v = b.dataset.v;
+    state.districts.has(v) ? state.districts.delete(v) : state.districts.add(v);
+    b.classList.toggle("on", state.districts.has(v));
+    const n = state.districts.size;
+    $("dcount").textContent = n ? "Đã chọn " + n + " khu" : "Tất cả 5 khu";
+    updateFoot();
   });
 
-  // Nếu trong quận đó chưa có, lấy các quán >= 4.4 sao lân cận ở TP.HCM
-  if (verifiedMatches.length === 0) {
-    verifiedMatches = window.PLACES_DATA.filter(place => 
-      place.type === type && place.status === "Đang mở cửa" && place.ratingGoogle >= 4.4
+  function pick() {
+    const k = state.purpose;
+    return PLACES
+      .filter((p) => p.type === state.type && (!state.districts.size || state.districts.has(p.district)))
+      .map((p) => ({ p, s: p.gu[k] * 10 + p.rating * 4 + Math.log10(p.reviews) }))
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 10)
+      .map((x) => x.p);
+  }
+
+  function updateFoot() {
+    const n = pick().length;
+    $("foot").textContent = n
+      ? "Có " + n + " quán hợp gu · số sao & review Google Maps ngày " + window.CHECKED_AT
+      : "Chưa có quán nào khớp – thử chọn thêm khu khác nhé";
+    $("go").disabled = !n;
+  }
+
+  // ---------- results ----------
+  function cardHTML(p, i) {
+    const g = GRADS[i % GRADS.length];
+    const em = EMOJI[p.type][i % 4];
+    const k = state.purpose;
+    const rows = [["work", "Làm việc"], ["chill", "Chill / hẹn"], ["taste", p.type === "cafe" ? "Đồ uống" : "Món ăn"]];
+    const bars = rows.map(([key, lb]) =>
+      '<div class="bar' + (key === k ? " hl" : "") + '"><span>' + lb + '</span><div class="t"><div style="width:' + p.gu[key] * 10 + '%"></div></div><b>' + p.gu[key] + "</b></div>"
+    ).join("");
+    return (
+      '<article class="card" data-i="' + i + '">' +
+        '<div class="hero" style="background:linear-gradient(135deg,' + g[0] + "," + g[1] + ')">' +
+          '<span class="rank">#' + (i + 1) + " hợp gu " + PURPOSE[k].label.toLowerCase() + "</span>" +
+          '<span class="emoji">' + em + "</span>" +
+          "<div><h2>" + esc(p.name) + '</h2><div class="cat">' + esc(p.cat) + " · " + esc(p.district) + "</div></div>" +
+        "</div>" +
+        '<div class="body">' +
+          '<div class="gg"><span class="stars"><i>★</i>' + p.rating.toFixed(1) + '</span><span class="rev">' + fmt(p.reviews) + ' đánh giá Google</span><span class="open">● Đang hoạt động</span></div>' +
+          '<div class="verdict"><b>LakaSG phán</b>' + esc(p.verdict) + "</div>" +
+          '<div class="bars">' + bars + "</div>" +
+          '<div class="addr">📍 ' + esc(p.address) + "</div>" +
+          '<div class="acts"><a class="btn s" target="_blank" rel="noopener" href="' + p.mapsUrl + '">Xem ảnh & review</a>' +
+          '<a class="btn p" target="_blank" rel="noopener" href="' + p.dirUrl + '">Chỉ đường →</a></div>' +
+        "</div>" +
+      "</article>"
     );
   }
 
-  // 2. SẮP XẾP THEO TIÊU CHÍ ANH YÊU YÊU CẦU
-  verifiedMatches.sort((a, b) => {
-    if (purpose === 'work') {
-      return (b.scores.facilities.score + b.scores.quiet.score) - (a.scores.facilities.score + a.scores.quiet.score);
-    } else if (purpose === 'taste') {
-      return b.scores.foodDrink.score - a.scores.foodDrink.score;
-    } else {
-      return b.ratingGoogle - a.ratingGoogle;
-    }
+  function showResults() {
+    state.list = pick();
+    state.idx = 0;
+    const L = state.list;
+    $("tabs").innerHTML = L.map((p, i) => '<button class="tab' + (i ? "" : " on") + '" data-i="' + i + '">' + (i + 1) + ". " + esc(p.name) + "</button>").join("");
+    $("dots").innerHTML = L.map((_, i) => "<span" + (i ? "" : ' class="on"') + "></span>").join("");
+    $("deck").innerHTML = L.length ? L.map(cardHTML).join("") : '<div class="empty">Chưa có quán khớp gu này.</div>';
+    $("deck").scrollLeft = 0;
+    $("count").textContent = "1 / " + L.length;
+    $("sub").textContent = (state.type === "cafe" ? "Cà phê" : "Quán ăn") + " · " + PURPOSE[state.purpose].label + " · " + (state.districts.size ? [...state.districts].join(", ") : "Mọi khu");
+    $("quiz").classList.add("hidden");
+    $("results").classList.remove("hidden");
+    $("btn-back").classList.remove("hidden");
+    $("logo").classList.add("hidden");
+  }
+
+  function setActive(i) {
+    if (i === state.idx) return;
+    state.idx = i;
+    [...$("tabs").children].forEach((t, j) => t.classList.toggle("on", j === i));
+    [...$("dots").children].forEach((d, j) => d.classList.toggle("on", j === i));
+    $("count").textContent = i + 1 + " / " + state.list.length;
+    const t = $("tabs").children[i];
+    if (t) $("tabs").scrollTo({ left: t.offsetLeft - $("tabs").clientWidth / 2 + t.offsetWidth / 2, behavior: "smooth" });
+  }
+
+  let raf = 0;
+  $("deck").addEventListener("scroll", () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const d = $("deck");
+      const w = d.firstElementChild ? d.firstElementChild.offsetWidth + 12 : d.clientWidth;
+      setActive(Math.max(0, Math.min(state.list.length - 1, Math.round(d.scrollLeft / w))));
+    });
   });
 
-  currentFilteredPlaces = verifiedMatches;
-  activePlaceIndex = 0;
-
-  // Hiển thị phần kết quả
-  renderResultsView();
-}
-
-// Hiển thị kết quả ra màn hình
-function renderResultsView() {
-  const quizSection = document.getElementById('quiz-section');
-  const resultsSection = document.getElementById('results-section');
-
-  // Đổi view
-  quizSection.classList.add('hidden');
-  resultsSection.classList.remove('hidden');
-
-  // Đặt tiêu đề kết quả
-  const resultTitle = document.getElementById('result-title');
-  if (resultTitle) {
-    const typeLabel = userQuizState.type === 'cafe' ? 'quán cafe' : 'quán ăn';
-    resultTitle.textContent = `${currentFilteredPlaces.length} ${typeLabel} chuẩn gu (★4.4 - 4.7)`;
-  }
-
-  // Render các Tab chuyển quán
-  renderTabs();
-
-  // Render chi tiết quán đang chọn
-  renderActivePlace();
-}
-
-// Render Tabs chọn quán (Vuốt ngang)
-function renderTabs() {
-  const tabsContainer = document.getElementById('place-tabs');
-  if (!tabsContainer) return;
-  tabsContainer.innerHTML = '';
-
-  currentFilteredPlaces.forEach((place, index) => {
-    const isActive = index === activePlaceIndex;
-    const tabBtn = document.createElement('button');
-    tabBtn.className = `flex-shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-bold transition select-none flex items-center gap-1 active:scale-95 ${
-      isActive 
-        ? 'bg-sage-800 text-white shadow-sm' 
-        : 'bg-white text-stone-700 border border-cream-300 hover:bg-cream-100'
-    }`;
-    tabBtn.innerHTML = `<span>${index + 1}.</span> <span>${place.name.split(' - ')[0]}</span> <span class="${isActive ? 'text-amber-300' : 'text-amber-600'} font-black text-[10px]">★${place.ratingGoogle}</span>`;
-    tabBtn.onclick = () => {
-      activePlaceIndex = index;
-      renderTabs();
-      renderActivePlace();
-    };
-    tabsContainer.appendChild(tabBtn);
+  $("tabs").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-i]");
+    if (!b) return;
+    const c = $("deck").children[+b.dataset.i];
+    if (c) $("deck").scrollTo({ left: c.offsetLeft - 14, behavior: "smooth" });
   });
-}
 
-// Render nội dung quán hiện tại trên màn hình 100dvh
-function renderActivePlace() {
-  const place = currentFilteredPlaces[activePlaceIndex];
-  if (!place) return;
-
-  // Hero Image
-  const heroImg = document.getElementById('place-hero-img');
-  if (heroImg && place.images && place.images.length > 0) {
-    heroImg.src = place.images[0];
+  function back() {
+    $("results").classList.add("hidden");
+    $("quiz").classList.remove("hidden");
+    $("btn-back").classList.add("hidden");
+    $("logo").classList.remove("hidden");
+    $("sub").textContent = "Phán quán Sài Gòn theo gu của anh";
   }
 
-  // Name & Rating
-  const starsEl = document.getElementById('place-google-stars');
-  if (starsEl) starsEl.textContent = place.ratingGoogle;
+  $("go").addEventListener("click", showResults);
+  $("btn-back").addEventListener("click", back);
+  $("btn-share").addEventListener("click", async () => {
+    const p = state.list[state.idx];
+    const onResults = !$("results").classList.contains("hidden") && p;
+    const data = onResults
+      ? { title: "LakaSG", text: p.name + " – ★" + p.rating + " (" + fmt(p.reviews) + " review Google). " + p.verdict, url: p.mapsUrl }
+      : { title: "LakaSG", text: "Phán quán Sài Gòn theo gu", url: location.href };
+    try {
+      if (navigator.share) await navigator.share(data);
+      else { await navigator.clipboard.writeText(data.text + " " + data.url); alert("Đã copy link!"); }
+    } catch (_) {}
+  });
 
-  const reviewsEl = document.getElementById('place-google-reviews');
-  if (reviewsEl) reviewsEl.textContent = `(${place.reviewCount} review)`;
-
-  const nameEl = document.getElementById('place-card-name');
-  if (nameEl) nameEl.textContent = place.name;
-
-  // Best for & Tagline
-  const bestForEl = document.getElementById('best-for-text');
-  if (bestForEl) bestForEl.textContent = place.bestFor;
-
-  const taglineEl = document.getElementById('place-tagline');
-  if (taglineEl) taglineEl.textContent = place.tagline;
-
-  // Scores
-  const quietNum = document.getElementById('score-quiet-num');
-  if (quietNum) quietNum.textContent = place.scores.quiet.score;
-  const quietNote = document.getElementById('score-quiet-note');
-  if (quietNote) quietNote.textContent = place.scores.quiet.note;
-
-  const facNum = document.getElementById('score-fac-num');
-  if (facNum) facNum.textContent = place.scores.facilities.score;
-  const facNote = document.getElementById('score-fac-note');
-  if (facNote) facNote.textContent = place.scores.facilities.note;
-
-  const foodNum = document.getElementById('score-food-num');
-  if (foodNum) foodNum.textContent = place.scores.foodDrink.score;
-  const foodNote = document.getElementById('score-food-note');
-  if (foodNote) foodNote.textContent = place.scores.foodDrink.note;
-
-  // Address & Google Maps link
-  const addrEl = document.getElementById('place-address');
-  if (addrEl) addrEl.textContent = place.address;
-
-  const mapsBtn = document.getElementById('btn-google-maps');
-  if (mapsBtn) mapsBtn.href = place.googleMapsUrl;
-}
-
-// Quay lại phần chọn khảo sát
-function resetOrGoBack() {
-  const quizSection = document.getElementById('quiz-section');
-  const resultsSection = document.getElementById('results-section');
-
-  if (!resultsSection.classList.contains('hidden')) {
-    resultsSection.classList.add('hidden');
-    quizSection.classList.remove('hidden');
-  }
-}
-
-// Xử lý gửi tin nhắn Chat
-function submitChatMessage() {
-  const input = document.getElementById('chat-input');
-  if (!input) return;
-  const text = input.value.trim();
-  if (!text) return;
-
-  input.value = '';
-  generateAIResponse(text);
-}
-
-// Xử lý các câu hỏi gợi ý nhanh
-function handleQuickPrompt(promptText) {
-  generateAIResponse(promptText);
-}
-
-// Hiển thị modal câu trả lời của trợ lý
-function showAIModal(content) {
-  const modal = document.getElementById('ai-answer-modal');
-  const contentEl = document.getElementById('ai-modal-content');
-  if (modal && contentEl) {
-    contentEl.innerHTML = content;
-    modal.classList.remove('hidden');
-  }
-}
-
-// Đóng modal câu trả lời
-function closeAIModal() {
-  const modal = document.getElementById('ai-answer-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-  }
-}
-
-// Tạo câu trả lời thông minh dựa trên dữ liệu thật
-function generateAIResponse(question) {
-  const q = question.toLowerCase();
-  const current = currentFilteredPlaces[activePlaceIndex] || window.PLACES_DATA[0];
-
-  let reply = "";
-
-  if (q.includes("wifi") || q.includes("mát") || q.includes("lạnh") || q.includes("ổ điện") || q.includes("cày")) {
-    const bestWork = [...currentFilteredPlaces].sort((a,b) => b.scores.facilities.score - a.scores.facilities.score)[0];
-    reply = `
-      <div class="space-y-2">
-        <div class="font-bold text-mocha-800">⚡ Quán có Wi-Fi mạnh, máy lạnh mát & ổ điện chuẩn nhất:</div>
-        <div class="p-2.5 bg-sage-50 rounded-xl border border-sage-200">
-          <div class="font-extrabold text-sage-800 text-sm">${bestWork.name} ★${bestWork.ratingGoogle} (${bestWork.reviewCount})</div>
-          <div class="text-[11px] text-stone-600 mt-1">${bestWork.scores.facilities.note}</div>
-          <div class="text-[11px] text-stone-700 mt-1">📍 ${bestWork.address}</div>
-        </div>
-        <div class="pt-1">
-          <a href="${bestWork.googleMapsUrl}" target="_blank" class="inline-flex items-center gap-1 text-rose-600 font-bold underline text-xs">
-            👉 Mở trực tiếp trên Google Maps
-          </a>
-        </div>
-      </div>
-    `;
-  } else if (q.includes("so sánh") || q.includes("kỹ hơn")) {
-    if (currentFilteredPlaces.length >= 2) {
-      const p1 = currentFilteredPlaces[0];
-      const p2 = currentFilteredPlaces[1];
-      reply = `
-        <div class="space-y-2">
-          <div class="font-bold text-mocha-800">⚖️ So sánh chi tiết 2 quán hàng đầu:</div>
-          <div class="p-2 bg-cream-50 rounded-xl border border-cream-200 space-y-1 text-xs">
-            <div><strong>1. ${p1.name} (★${p1.ratingGoogle}):</strong> ${p1.bestFor}</div>
-            <div class="text-stone-600">Tiện nghi: ${p1.scores.facilities.score}/10. Độ yên: ${p1.scores.quiet.score}/10.</div>
-          </div>
-          <div class="p-2 bg-cream-50 rounded-xl border border-cream-200 space-y-1 text-xs">
-            <div><strong>2. ${p2.name} (★${p2.ratingGoogle}):</strong> ${p2.bestFor}</div>
-            <div class="text-stone-600">Tiện nghi: ${p2.scores.facilities.score}/10. Độ yên: ${p2.scores.quiet.score}/10.</div>
-          </div>
-          <div class="text-sage-800 font-bold text-xs pt-1">
-            💡 Lời khuyên: Cần cày việc ngồi lâu chọn <strong>${p1.scores.facilities.score >= p2.scores.facilities.score ? p1.name : p2.name}</strong> là điểm 10 nha!
-          </div>
-        </div>
-      `;
-    } else {
-      reply = `<div class="text-xs">Hiện danh sách đang chọn 1 quán nổi bật nhất. Anh có thể chọn thêm các quận khác để so sánh nha!</div>`;
-    }
-  } else if (q.includes("yên tĩnh") || q.includes("yên nhất")) {
-    const bestQuiet = [...currentFilteredPlaces].sort((a,b) => b.scores.quiet.score - a.scores.quiet.score)[0];
-    reply = `
-      <div class="space-y-2">
-        <div class="font-bold text-mocha-800">🤫 Quán yên tĩnh & trật tự nhất:</div>
-        <div class="p-2.5 bg-sage-50 rounded-xl border border-sage-200">
-          <div class="font-extrabold text-sage-800 text-sm">${bestQuiet.name} ★${bestQuiet.ratingGoogle}</div>
-          <div class="text-[11px] text-stone-600 mt-1">${bestQuiet.scores.quiet.note}</div>
-          <div class="text-[11px] text-stone-700 mt-1">⏰ Giờ tĩnh nhất: <strong>${bestQuiet.bestTime}</strong></div>
-        </div>
-      </div>
-    `;
-  } else {
-    reply = `
-      <div class="space-y-2 text-xs">
-        <div class="font-bold text-mocha-800 text-sm">${current.name} ★${current.ratingGoogle}</div>
-        <div class="text-stone-600">${current.tagline}</div>
-        <div class="text-stone-700">Điểm Google: <strong>${current.ratingGoogle}★</strong> (${current.reviewCount} đánh giá). Trạng thái: <strong>${current.status}</strong>.</div>
-        <div class="pt-1">
-          <a href="${current.googleMapsUrl}" target="_blank" class="text-rose-600 font-bold underline">
-            👉 Xem Google Maps & Chỉ đường
-          </a>
-        </div>
-      </div>
-    `;
-  }
-
-  showAIModal(reply);
-}
-
-// Share web app
-function shareApp() {
-  if (navigator.share) {
-    navigator.share({
-      title: 'LakaSG - Sài Gòn Quán Xá',
-      text: 'Tìm quán cafe học bài & quán ăn chuẩn gu tại TP.HCM (Google Maps >= 4.4 sao)',
-      url: window.location.href,
-    }).catch(() => {});
-  } else {
-    navigator.clipboard.writeText(window.location.href);
-    alert("Đã sao chép liên kết vào bộ nhớ tạm!");
-  }
-}
+  updateFoot();
+})();
