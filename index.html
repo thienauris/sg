@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#FAF8F4">
   <title>LakaSG – Phán xét quán Sài Gòn theo gu</title>
   <meta name="description" content="Chọn gu, LakaSG phán quán cà phê, quán ăn TP.HCM đang mở cửa, số sao và review lấy từ Google Maps.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%235B8C6E'/%3E%3Cg transform='translate(5.2 5.6) scale(.9)' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19.5 12.57L12 20l-7.5-7.43A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.572'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -153,13 +154,30 @@
     .it a { background: var(--sage); color: #fff; border-color: var(--sage); }
     .badge { position: absolute; top: -3px; right: -3px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: var(--rose); color: #fff; font-size: 10px; font-weight: 800; display: grid; place-items: center; }
     .icon-btn { position: relative; }
+    .ic { width: 1em; height: 1em; display: inline-block; vertical-align: -.14em; flex: none; }
+    .ic.gold { color: var(--gold); }
+    .icon-btn { display: grid; place-items: center; color: var(--mocha); }
+    .icon-btn .ic { width: 19px; height: 19px; }
+    .opt .e { display: grid; place-items: center; }
+    .opt .e .ic { width: 26px; height: 26px; color: var(--sage); }
+    .cta .ic { width: 18px; height: 18px; vertical-align: -.22em; margin-left: 2px; }
+    .swb button { display: grid; place-items: center; }
+    .swb .ic { width: 24px; height: 24px; } .swb .un .ic { width: 18px; height: 18px; }
+    .swb .lv .ic path, #rinfo .ic path, .stars .ic path, .ic.gold path { fill: currentColor; }
+    .hero .emoji { line-height: 0; }
+    .hero .emoji .ic { width: 1em; height: 1em; stroke-width: 1.5; color: #fff; }
+    .stars i { display: grid; }
+    .lseg .ic, .it .ic { width: 14px; height: 14px; vertical-align: -.15em; }
+    .done b .ic { width: 44px; height: 44px; color: var(--sage); }
+    .addr .ic, .open .ic { width: 13px; height: 13px; vertical-align: -.15em; }
+    .q-label small .ic { width: 13px; height: 13px; vertical-align: -.2em; }
     .empty { flex: 1; display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 15px; padding: 20px; }
 
     /* màn nhỏ / thấp: thu gọn để vẫn vừa 1 màn hình */
     @media (max-height: 700px) {
       .quiz { padding-top: 0; }
       .q-sub, .opt span:not(.e) { display: none; }
-      .opt .e { font-size: 20px; }
+      .opt .e { font-size: 20px; } .opt .e .ic { width: 22px; height: 22px; }
       .chip { padding: 7px 12px; font-size: 13px; }
       .cta { padding: 13px; }
       .body { gap: 7px; padding: 10px 14px 12px; }
@@ -180,52 +198,52 @@
 <body>
   <div class="app">
     <header class="top">
-      <button id="btn-back" class="icon-btn hidden" aria-label="Chọn lại gu">←</button>
+      <button id="btn-back" class="icon-btn hidden" aria-label="Chọn lại gu"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m12 19l-7-7l7-7m7 7H5"/></svg></button>
       <div class="logo" id="logo">L</div>
       <div class="brand">
         <b>LakaSG</b>
         <span id="sub">Phán quán Sài Gòn theo gu của anh</span>
       </div>
-      <button id="btn-me" class="icon-btn" aria-label="Quán của anh và tài khoản">♥<span class="badge hidden" id="me-n"></span></button>
-      <button id="btn-share" class="icon-btn" aria-label="Chia sẻ">↗</button>
+      <button id="btn-me" class="icon-btn" aria-label="Quán của anh và tài khoản"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg><span class="badge hidden" id="me-n"></span></button>
+      <button id="btn-share" class="icon-btn" aria-label="Chia sẻ"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51l6.83 3.98m-.01-10.98l-6.82 3.98"/></g></svg></button>
     </header>
 
     <!-- MÀN 1: CHỌN GU -->
     <main id="quiz" class="screen quiz">
       <div>
         <h1 class="q-title">Hôm nay anh muốn <em>đi đâu</em>?</h1>
-        <p class="q-sub">Chọn gu, LakaSG phán quán hợp nhất. Chỉ quán đang mở cửa, ★4.4+ trên Google Maps.</p>
+        <p class="q-sub">Chọn gu, LakaSG phán quán hợp nhất. Chỉ quán đang mở cửa, <svg class="ic gold" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.12 2.12 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.12 2.12 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.12 2.12 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.12 2.12 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.12 2.12 0 0 0 1.597-1.16z"/></svg>4.4+ trên Google Maps.</p>
       </div>
 
       <section>
         <div class="q-label">Loại quán</div>
         <div class="seg" id="type">
-          <button class="opt on" data-v="cafe"><span class="e">☕</span><div><b>Cà phê</b><span>Ngồi, làm việc, hẹn hò</span></div></button>
-          <button class="opt" data-v="food"><span class="e">🍜</span><div><b>Quán ăn</b><span>Ăn ngon, đi nhóm</span></div></button>
+          <button class="opt on" data-v="cafe"><span class="e"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 2v2m4-2v2m2 4a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1M6 2v2"/></svg></span><div><b>Cà phê</b><span>Ngồi, làm việc, hẹn hò</span></div></button>
+          <button class="opt" data-v="food"><span class="e"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.248 3c.273.1.808.53.747 1.36c-.05.83-.938 1.2-.989 2.02c-.06.78.333 1.24.727 1.62m4.519-5c.268.1.794.53.745 1.36c-.06.83-.923 1.2-.993 2.02c-.05.78.338 1.24.725 1.62m2.771 4L22 6M4 12a1 1 0 0 0-.99 1.133A9 9 0 0 0 12 21a9 9 0 0 0 8.99-7.867A1 1 0 0 0 20 12zm2.252-9c.268.1.794.53.745 1.36c-.06.83-.923 1.2-.993 2.02c-.05.78.338 1.24.735 1.62M7 21h10"/></svg></span><div><b>Quán ăn</b><span>Ăn ngon, đi nhóm</span></div></button>
         </div>
       </section>
 
       <section>
-        <div class="q-label">Khu vực <small id="dcount">Tất cả quận · vuốt ngang ⇆</small></div>
+        <div class="q-label">Khu vực <small id="dcount">Tất cả quận · vuốt ngang <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 8l4 4l-4 4M2 12h20M6 8l-4 4l4 4"/></svg></small></div>
         <div class="strip noscroll" id="districts"></div>
       </section>
 
       <section id="dish-sec" class="hidden">
-        <div class="q-label">Muốn ăn món gì? <small id="fcount">Tất cả món · vuốt ngang ⇆</small></div>
+        <div class="q-label">Muốn ăn món gì? <small id="fcount">Tất cả món · vuốt ngang <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m18 8l4 4l-4 4M2 12h20M6 8l-4 4l4 4"/></svg></small></div>
         <div class="strip r3 noscroll" id="dishes"></div>
       </section>
 
       <section>
         <div class="q-label">Đi để làm gì?</div>
         <div class="purpose" id="purpose">
-          <button class="opt on" data-v="work"><span class="e">💻</span><b>Làm việc</b><span>Yên, ngồi lâu</span></button>
-          <button class="opt" data-v="chill"><span class="e">💞</span><b>Chill / hẹn</b><span>Đẹp, thư giãn</span></button>
-          <button class="opt" data-v="taste"><span class="e">😋</span><b>Ăn uống ngon</b><span>Vị là trên hết</span></button>
+          <button class="opt on" data-v="work"><span class="e"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2zm2.054 10.987H3.946"/></svg></span><b>Làm việc</b><span>Yên, ngồi lâu</span></button>
+          <button class="opt" data-v="chill"><span class="e"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676a.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052a2.12 2.12 0 0 0-.004-3a2.124 2.124 0 1 0 3-3a2.124 2.124 0 0 0 3.004 0a2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0a2 2 0 0 1 0-2.828l2.823-2.762"/></svg></span><b>Chill / hẹn</b><span>Đẹp, thư giãn</span></button>
+          <button class="opt" data-v="taste"><span class="e"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-><path d="M22 11v1a10 10 0 1 1-9-10"/><path d="M8 14s1.5 2 4 2s4-2 4-2M9 9h.01M15 9h.01M16 5h6m-3-3v6"/></g></svg></span><b>Ăn uống ngon</b><span>Vị là trên hết</span></button>
         </div>
       </section>
 
       <div>
-        <button class="cta" id="go">Phán xét giúp em →</button>
+        <button class="cta" id="go">Phán xét giúp em <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></button>
         <p class="foot" id="foot"></p>
       </div>
     </main>
@@ -235,10 +253,10 @@
       <div class="rtop"><span id="count"></span><span id="rinfo"></span></div>
       <div class="deck" id="deck"></div>
       <div class="swb">
-        <button class="un" id="sw-undo" aria-label="Hoàn tác">↶</button>
-        <button class="x" id="sw-nope" aria-label="Không thích">✕</button>
-        <button class="ok" id="sw-been" aria-label="Đi rồi">✓</button>
-        <button class="lv" id="sw-like" aria-label="Muốn đi">♥</button>
+        <button class="un" id="sw-undo" aria-label="Hoàn tác"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></g></svg></button>
+        <button class="x" id="sw-nope" aria-label="Không thích"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg></button>
+        <button class="ok" id="sw-been" aria-label="Đi rồi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></svg></button>
+        <button class="lv" id="sw-like" aria-label="Muốn đi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button>
       </div>
       <p class="hint">Quẹt trái: không thích · Quẹt lên: đi rồi · Quẹt phải: muốn đi</p>
     </main>
@@ -247,9 +265,9 @@
     <main id="mine" class="screen hidden">
       <div class="acct" id="acct"></div>
       <div class="lseg" id="lseg">
-        <button class="on" data-v="like">♥ Muốn đi</button>
-        <button data-v="been">✓ Đi rồi</button>
-        <button data-v="nope">✕ Đã bỏ</button>
+        <button class="on" data-v="like"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg> Muốn đi</button>
+        <button data-v="been"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></svg> Đi rồi</button>
+        <button data-v="nope"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg> Đã bỏ</button>
       </div>
       <div class="mylist noscroll" id="mylist"></div>
     </main>
@@ -258,6 +276,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="data.js"></script>
+  <script src="icons.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

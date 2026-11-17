@@ -6,12 +6,13 @@
   const state = { type: "cafe", districts: new Set(), dishes: new Set(), purpose: "work", list: [], idx: 0, hist: [] };
 
   const PURPOSES = {
-    cafe: [["work", "💻", "Làm việc", "Yên, ngồi lâu"], ["chill", "💞", "Chill / hẹn", "Đẹp, thư giãn"], ["taste", "☕", "Đồ uống ngon", "Vị là trên hết"]],
-    food: [["taste", "😋", "Ngon nhất", "Điểm Google cao"], ["chill", "🥂", "Hẹn hò / đi nhóm", "Không gian ổn"], ["popular", "🔥", "Đông khách", "Review nhiều nhất"]]
+    cafe: [["work", "laptop", "Làm việc", "Yên, ngồi lâu"], ["chill", "date", "Chill / hẹn", "Đẹp, thư giãn"], ["taste", "coffee", "Đồ uống ngon", "Vị là trên hết"]],
+    food: [["taste", "yum", "Ngon nhất", "Điểm Google cao"], ["chill", "wine", "Hẹn hò / đi nhóm", "Không gian ổn"], ["popular", "flame", "Đông khách", "Review nhiều nhất"]]
   };
   const PLABEL = { work: "làm việc", chill: "chill / hẹn hò", taste: "ngon", popular: "đông khách" };
   const GRADS = [["#2D5A40", "#5B8C6E"], ["#6B4A3A", "#B07D5B"], ["#3B4C6B", "#6D86B0"], ["#7A3E48", "#C0727E"], ["#4A5A2D", "#8AA05B"], ["#5A3D6B", "#9474AE"]];
-  const EMOJI = { cafe: ["☕", "🫖", "🥐", "🧋"], food: ["🍜", "🍲", "🍚", "🥢"] };
+  const EMOJI = { cafe: ["coffee", "tea", "croissant", "boba"], food: ["soup", "bowl", "rice", "chop"] };
+  const ic = window.ic;
 
   const fmt = (n) => n.toLocaleString("vi-VN");
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -39,7 +40,7 @@
     const opts = PURPOSES[state.type];
     if (!opts.some((o) => o[0] === state.purpose)) state.purpose = opts[0][0];
     $("purpose").innerHTML = opts.map((o) =>
-      '<button class="opt' + (o[0] === state.purpose ? " on" : "") + '" data-v="' + o[0] + '"><span class="e">' + o[1] + "</span><b>" + o[2] + "</b><span>" + o[3] + "</span></button>"
+      '<button class="opt' + (o[0] === state.purpose ? " on" : "") + '" data-v="' + o[0] + '"><span class="e">' + ic(o[1]) + "</span><b>" + o[2] + "</b><span>" + o[3] + "</span></button>"
     ).join("");
   }
 
@@ -52,7 +53,7 @@
     $("dishes").innerHTML = DISHES.filter((t) => counts[t]).map((t) =>
       '<button class="chip' + (state.dishes.has(t) ? " on" : "") + '" data-v="' + esc(t) + '">' + esc(t) + "<small>" + counts[t] + "</small></button>"
     ).join("");
-    $("fcount").textContent = state.dishes.size ? "Đã chọn " + state.dishes.size + " món" : "Tất cả món · vuốt ngang ⇆";
+    $("fcount").innerHTML = state.dishes.size ? "Đã chọn " + state.dishes.size + " món" : "Tất cả món · vuốt ngang " + ic("swipe");
   }
 
   $("type").addEventListener("click", (e) => {
@@ -77,7 +78,7 @@
     const v = b.dataset.v;
     state.districts.has(v) ? state.districts.delete(v) : state.districts.add(v);
     b.classList.toggle("on", state.districts.has(v));
-    $("dcount").textContent = state.districts.size ? "Đã chọn " + state.districts.size + " quận" : "Tất cả quận · vuốt ngang ⇆";
+    $("dcount").innerHTML = state.districts.size ? "Đã chọn " + state.districts.size + " quận" : "Tất cả quận · vuốt ngang " + ic("swipe");
     renderDishes();
     updateFoot();
   });
@@ -87,7 +88,7 @@
     const v = b.dataset.v;
     state.dishes.has(v) ? state.dishes.delete(v) : state.dishes.add(v);
     b.classList.toggle("on", state.dishes.has(v));
-    $("fcount").textContent = state.dishes.size ? "Đã chọn " + state.dishes.size + " món" : "Tất cả món · vuốt ngang ⇆";
+    $("fcount").innerHTML = state.dishes.size ? "Đã chọn " + state.dishes.size + " món" : "Tất cả món · vuốt ngang " + ic("swipe");
     updateFoot();
   });
 
@@ -135,17 +136,17 @@
       '<article class="card" data-i="' + i + '">' +
         '<div class="hero" style="background:linear-gradient(135deg,' + g[0] + "," + g[1] + ')">' +
           '<span class="rank">#' + (i + 1) + " " + PLABEL[k] + "</span>" +
-          '<span class="emoji">' + em + "</span>" +
+          '<span class="emoji">' + ic(em) + "</span>" +
           "<div><h2>" + esc(p.name) + '</h2><div class="cat">' + esc(p.cat) + " · " + esc(p.district) + "</div></div>" +
         "</div>" +
         '<div class="body">' +
-          '<div class="gg"><span class="stars"><i>★</i>' + p.rating.toFixed(1) + '</span><span class="rev">' + fmt(p.reviews) + ' đánh giá Google</span><span class="open">● Đang hoạt động</span></div>' +
+          '<div class="gg"><span class="stars"><i>' + ic("star") + '</i>' + p.rating.toFixed(1) + '</span><span class="rev">' + fmt(p.reviews) + ' đánh giá Google</span><span class="open">' + ic("check") + ' Đang hoạt động</span></div>' +
           tags +
           '<div class="verdict"><b>LakaSG phán</b>' + esc(p.verdict) + "</div>" +
           '<div class="bars">' + bars + "</div>" +
-          '<div class="addr">📍 ' + esc(p.address) + "</div>" +
+          '<div class="addr">' + ic("pin") + ' ' + esc(p.address) + "</div>" +
           '<div class="acts"><a class="btn s" target="_blank" rel="noopener" href="' + p.mapsUrl + '">Xem ảnh & review</a>' +
-          '<a class="btn p" target="_blank" rel="noopener" href="' + p.dirUrl + '">Chỉ đường →</a></div>' +
+          '<a class="btn p" target="_blank" rel="noopener" href="' + p.dirUrl + '">Chỉ đường ' + ic("arrow") + '</a></div>' +
         "</div>" +
       "</article>"
     );
@@ -172,10 +173,10 @@
     ["sw-nope", "sw-been", "sw-like"].forEach((id) => ($(id).disabled = i >= L.length));
     $("count").innerHTML = i < L.length ? "Quán <b>" + (i + 1) + "</b> / " + L.length : "Hết quán";
     const n = Object.values(SW).filter((x) => x.a === "like").length;
-    $("rinfo").textContent = n ? "♥ " + n + " quán muốn đi" : "";
+    $("rinfo").innerHTML = n ? ic("heart") + " " + n + " quán muốn đi" : "";
     if (i >= L.length) {
-      d.innerHTML = '<div class="done"><b>🎉</b>' + (L.length ? "Anh đã quẹt hết quán hợp gu này rồi." : "Chưa có quán mới khớp gu này.") +
-        '<button class="btn p" id="d-again">Chọn gu khác</button><button class="btn s" id="d-mine">Xem quán của anh ♥</button></div>';
+      d.innerHTML = '<div class="done"><b>' + ic("party") + '</b>' + (L.length ? "Anh đã quẹt hết quán hợp gu này rồi." : "Chưa có quán mới khớp gu này.") +
+        '<button class="btn p" id="d-again">Chọn gu khác</button><button class="btn s" id="d-mine">Xem quán của anh ' + ic("heart") + '</button></div>';
       $("d-again").onclick = () => show("quiz");
       $("d-mine").onclick = () => show("mine");
       return;
@@ -276,24 +277,24 @@
 
   // ---------- màn "quán của anh" ----------
   let lt = "like";
-  const LT = { like: "Chưa có quán nào. Quẹt phải ♥ quán anh muốn đi nhé.", been: "Quẹt lên ✓ những quán anh đi rồi.", nope: "Quẹt trái ✕ quán anh không thích." };
-  const LN = { like: "♥ Muốn đi", been: "✓ Đi rồi", nope: "✕ Đã bỏ" };
+  const LT = { like: "Chưa có quán nào. Quẹt phải " + ic("heart") + " quán anh muốn đi nhé.", been: "Quẹt lên " + ic("check") + " những quán anh đi rồi.", nope: "Quẹt trái " + ic("x") + " quán anh không thích." };
+  const LN = { like: ic("heart") + " Muốn đi", been: ic("check") + " Đi rồi", nope: ic("x") + " Đã bỏ" };
   function refreshCounts() {
     const c = { like: 0, been: 0, nope: 0 };
     Object.values(SW).forEach((x) => { if (c[x.a] !== undefined) c[x.a]++; });
     $("me-n").textContent = c.like;
     $("me-n").classList.toggle("hidden", !c.like);
-    [...$("lseg").children].forEach((b) => (b.textContent = LN[b.dataset.v] + " " + c[b.dataset.v]));
+    [...$("lseg").children].forEach((b) => (b.innerHTML = LN[b.dataset.v] + " " + c[b.dataset.v]));
   }
   function renderMine() {
     refreshCounts();
     [...$("lseg").children].forEach((b) => b.classList.toggle("on", b.dataset.v === lt));
     const L = Object.entries(SW).filter(([pid, x]) => x.a === lt && BY[pid]).sort((a, b) => b[1].t - a[1].t).map(([pid]) => BY[pid]);
     $("mylist").innerHTML = L.length ? L.map((p) =>
-      '<div class="it"><div class="n"><b>' + esc(p.name) + "</b><span>★" + p.rating.toFixed(1) + " · " + esc(p.district) + " · " + (p.type === "cafe" ? "Cà phê" : esc(p.tags[0] || "Quán ăn")) + "</span></div>" +
-      (lt === "like" ? '<button data-a="been" data-p="' + p.pid + '">✓ Đi rồi</button>' : "") +
-      '<button data-a="" data-p="' + p.pid + '" title="Bỏ khỏi danh sách, quán sẽ hiện lại khi quẹt">↺</button>' +
-      '<a target="_blank" rel="noopener" href="' + p.dirUrl + '">Đi →</a></div>'
+      '<div class="it"><div class="n"><b>' + esc(p.name) + "</b><span>" + ic("star", "gold") + p.rating.toFixed(1) + " · " + esc(p.district) + " · " + (p.type === "cafe" ? "Cà phê" : esc(p.tags[0] || "Quán ăn")) + "</span></div>" +
+      (lt === "like" ? '<button data-a="been" data-p="' + p.pid + '">' + ic("check") + ' Đi rồi</button>' : "") +
+      '<button data-a="" data-p="' + p.pid + '" title="Bỏ khỏi danh sách, quán sẽ hiện lại khi quẹt">' + ic("reset") + '</button>' +
+      '<a target="_blank" rel="noopener" href="' + p.dirUrl + '">Đi ' + ic("arrow") + '</a></div>'
     ).join("") : '<div class="empty">' + LT[lt] + "</div>";
   }
   $("lseg").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) { lt = b.dataset.v; renderMine(); } });
@@ -347,7 +348,7 @@
     const u = Cloud.user();
     if (!Cloud.on) { $("acct").innerHTML = "<h3>Tài khoản</h3><p>Danh sách đang lưu trên máy này.</p>"; return; }
     if (u) {
-      $("acct").innerHTML = '<div class="me"><div><h3>Chào anh 👋</h3><p>' + esc(u.email) + " · đã đồng bộ</p></div>" + '<button class="btn s" id="a-out">Đăng xuất</button></div>';
+      $("acct").innerHTML = '<div class="me"><div><h3>Chào anh ' + ic("wave") + '</h3><p>' + esc(u.email) + " · đã đồng bộ</p></div>" + '<button class="btn s" id="a-out">Đăng xuất</button></div>';
       $("a-out").onclick = () => Cloud.signOut();
       return;
     }
