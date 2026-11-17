@@ -103,11 +103,30 @@
   function pick() {
     return PLACES
       .filter((p) => p.type === state.type && inDistricts(p) && !SW[p.pid] &&
+        (state.purpose !== "work" || p.gu.work >= 5) &&
         (state.type !== "food" || !state.dishes.size || p.tags.some((t) => state.dishes.has(t))))
       .map((p) => ({ p, s: score(p) }))
       .sort((a, b) => b.s - a.s)
       .slice(0, 40)
       .map((x) => x.p);
+  }
+
+  // quận lân cận để bổ sung khi đã chấm hết quán ở quận anh chọn
+  const NEAR = {
+    "Quận 1": ["Quận 3", "Quận 4", "Bình Thạnh"], "Quận 3": ["Quận 1", "Quận 10", "Phú Nhuận"], "Quận 4": ["Quận 1", "Quận 7", "Quận 8"],
+    "Quận 5": ["Quận 10", "Quận 11", "Quận 6"], "Quận 6": ["Quận 5", "Quận 11", "Bình Tân"], "Quận 7": ["Quận 4", "Quận 8", "Q.2 / Thảo Điền"],
+    "Quận 8": ["Quận 4", "Quận 5", "Quận 7"], "Quận 10": ["Quận 3", "Quận 5", "Tân Bình"], "Quận 11": ["Quận 10", "Tân Phú", "Quận 6"],
+    "Quận 12": ["Gò Vấp", "Tân Bình", "Thủ Đức"], "Bình Thạnh": ["Phú Nhuận", "Gò Vấp", "Quận 1"], "Phú Nhuận": ["Bình Thạnh", "Tân Bình", "Quận 3"],
+    "Tân Bình": ["Phú Nhuận", "Tân Phú", "Quận 10"], "Tân Phú": ["Tân Bình", "Bình Tân", "Quận 11"], "Gò Vấp": ["Bình Thạnh", "Phú Nhuận", "Quận 12"],
+    "Bình Tân": ["Tân Phú", "Quận 6", "Quận 11"], "Q.2 / Thảo Điền": ["Thủ Đức", "Bình Thạnh", "Quận 7"], "Thủ Đức": ["Q.2 / Thảo Điền", "Bình Thạnh", "Quận 12"]
+  };
+  // quận lân cận chưa chọn mà còn quán chưa chấm
+  function nearDistricts() {
+    if (!state.districts.size) return [];
+    const cand = [...new Set([...state.districts].flatMap((d) => NEAR[d] || []))].filter((d) => !state.districts.has(d));
+    const saved = state.districts;
+    const ok = cand.filter((d) => { state.districts = new Set([d]); const n = pick().length; state.districts = saved; return n > 0; });
+    return ok;
   }
 
   function updateFoot() {
@@ -189,6 +208,18 @@
     const V = left(), d = $("deck");
     state.idx = Math.max(0, Math.min(state.idx, V.length - 1));
     if (!V.length) {
+      // hết lượt này: tự lấy tiếp quán chưa chấm trong kho
+      const more = pick();
+      if (more.length) { state.list = more; state.idx = 0; return renderStack(); }
+      const near = nearDistricts();
+      if (near.length) {
+        d.innerHTML = '<div class="done"><b>' + ic("party") + '</b>Anh đã chấm hết quán hợp gu ở ' + esc([...state.districts].join(", ")) + ' rồi.' +
+          '<button class="btn p" id="d-near">Tìm thêm ở ' + esc(near.join(", ")) + '</button><button class="btn s" id="d-mine">Xem quán của anh ' + ic("heart") + '</button></div>';
+        $("d-near").onclick = () => { near.forEach((x) => state.districts.add(x)); resultsTitle(); state.list = pick(); state.idx = 0; renderStack(); };
+        $("d-mine").onclick = () => show("mine");
+        updateTop();
+        return;
+      }
       d.innerHTML = '<div class="done"><b>' + ic("party") + '</b>' + (state.list.length ? "Anh đã chấm hết quán hợp gu này rồi." : "Chưa có quán mới khớp gu này.") +
         '<button class="btn p" id="d-again">Chọn gu khác</button><button class="btn s" id="d-mine">Xem quán của anh ' + ic("heart") + '</button></div>';
       $("d-again").onclick = () => show("quiz");

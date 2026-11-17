@@ -1127,6 +1127,22 @@ window.PLACES_DATA.forEach((p, i) => {
   p.dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + q + "&destination_place_id=" + p.pid;
 });
 
+// Điểm "làm việc" của quán cà phê: chỉ quán ghi rõ là chỗ học / làm việc mới được điểm cao.
+// Quán có chủ đề khác (gốm, tô tượng, board game, mèo, nằm, rooftop, bánh, trà sữa...) bị hạ hẳn
+// và không hiện khi anh chọn gu "Làm việc".
+window.WORK_YES = /study|workspace|working|co\.?-?working|làm việc|học bài|học tập|focus|library|thư viện|24h|24\/24|24\/7/i;
+window.WORK_NO = /gốm|tô tượng|pottery|vẽ|painting|board ?game|poker|mèo|catfe|in bed|giấc|nap cafe|rooftop|kem|chè|trà sữa|milk tea|dessert|patisserie|bánh|bakes|bakery|dimsum|trà san|hong kong|trứng|egg|thuốc lào|vợt|souvenir|sân vườn|koi fish|biệt thự|villa|view/i;
+window.PLACES_DATA.forEach((p) => {
+  if (p.type !== "cafe") return;
+  const t = p.name + " | " + p.cat;
+  const w = p.gu.work;
+  if (window.WORK_YES.test(t)) p.gu.work = 9;
+  else if (window.WORK_NO.test(t)) {
+    p.gu.work = Math.min(w, 3);
+    p.verdict = p.verdict.replace("khi tìm cafe làm việc", "khi tìm cafe");
+  } else p.gu.work = w >= 8 ? 6 : Math.min(w, 5);
+});
+
 // Android: gọi thẳng app bản đồ của máy (geo: / google.navigation:), không phụ thuộc trình duyệt.
 // Nếu 1,5 giây sau trang vẫn còn hiện (máy không mở được app) thì mở bản web.
 window.PLACES_DATA.forEach((p) => {
