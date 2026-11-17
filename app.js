@@ -286,7 +286,7 @@
     ["quiz", "results", "mine"].forEach((x) => $(x).classList.toggle("hidden", x !== id));
     $("btn-back").classList.toggle("hidden", id === "quiz");
     $("logo").classList.toggle("hidden", id !== "quiz");
-    if (id === "quiz") { $("sub").textContent = "Phán quán Sài Gòn theo gu của anh"; updateFoot(); }
+    if (id === "quiz") { $("sub").textContent = "Quán ngon Sài Gòn"; updateFoot(); }
     if (id === "results") resultsTitle();
     if (id === "mine") { $("sub").textContent = "Quán của anh"; renderMine(); renderAcct(); }
   }
@@ -405,7 +405,7 @@
     const onResults = cur === "results" && p;
     const data = onResults
       ? { title: "LakaSG", text: p.name + " – ★" + p.rating + " (" + fmt(p.reviews) + " review Google). " + p.verdict, url: p.mapsUrl }
-      : { title: "LakaSG", text: "Phán quán Sài Gòn theo gu", url: location.href };
+      : { title: "LakaSG", text: "Quán ngon Sài Gòn", url: location.href };
     try {
       if (navigator.share) await navigator.share(data);
       else { await navigator.clipboard.writeText(data.text + " " + data.url); alert("Đã copy link!"); }
