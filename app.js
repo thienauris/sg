@@ -151,8 +151,8 @@
           '<div class="verdict"><b>LakaSG phán</b>' + esc(p.verdict) + "</div>" +
           '<div class="bars">' + bars + "</div>" +
           '<div class="addr">' + ic("pin") + ' ' + esc(p.address) + "</div>" +
-          '<div class="acts"><a class="btn s" ' + mapLink(p.mapsUrl) + '>Xem ảnh & review</a>' +
-          '<a class="btn p" ' + mapLink(p.dirUrl) + '>Chỉ đường ' + ic("arrow") + '</a></div>' +
+          '<div class="acts"><a class="btn s" ' + mapLink(p.mapsUrl, p.geoUrl) + '>Xem ảnh & review</a>' +
+          '<a class="btn p" ' + mapLink(p.dirUrl, p.navUrl) + '>Chỉ đường ' + ic("arrow") + '</a></div>' +
         "</div>" +
       "</article>"
     );
@@ -283,7 +283,7 @@
       '<div class="it"><div class="n"><b>' + esc(p.name) + "</b><span>" + ic("star", "gold") + p.rating.toFixed(1) + " · " + esc(p.district) + " · " + (p.type === "cafe" ? "Cà phê" : esc(p.tags[0] || "Quán ăn")) + "</span></div>" +
       (lt === "like" ? '<button data-a="been" data-p="' + p.pid + '">' + ic("check") + ' Đi rồi</button>' : "") +
       '<button data-a="" data-p="' + p.pid + '" title="Bỏ khỏi danh sách, quán sẽ hiện lại khi quẹt">' + ic("reset") + '</button>' +
-      '<a ' + mapLink(p.dirUrl) + '>Đi ' + ic("arrow") + '</a></div>'
+      '<a ' + mapLink(p.dirUrl, p.navUrl) + '>Đi ' + ic("arrow") + '</a></div>'
     ).join("") : '<div class="empty">' + LT[lt] + "</div>";
   }
   $("lseg").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) { lt = b.dataset.v; renderMine(); } });

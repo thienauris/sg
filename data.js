@@ -1127,7 +1127,22 @@ window.PLACES_DATA.forEach((p, i) => {
   p.dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + q + "&destination_place_id=" + p.pid;
 });
 
-// Android: mở thẳng app Google Maps (nếu máy chưa cài app thì quay về bản web)
-window.mapLink = (url) => /Android/i.test(navigator.userAgent)
-  ? 'href="intent://' + url.replace(/^https:\/\//, "") + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(url) + ';end"'
+// Android: gọi thẳng app bản đồ của máy (geo: / google.navigation:), không phụ thuộc trình duyệt.
+// Nếu 1,5 giây sau trang vẫn còn hiện (máy không mở được app) thì mở bản web.
+window.PLACES_DATA.forEach((p) => {
+  const q = encodeURIComponent(p.name + ", " + p.address);
+  p.geoUrl = "geo:0,0?q=" + q;
+  p.navUrl = "google.navigation:q=" + q;
+});
+const IS_ANDROID = /Android/i.test(navigator.userAgent);
+window.mapLink = (url, app) => IS_ANDROID
+  ? 'href="' + url + '" data-app="' + app + '"'
   : 'target="_blank" rel="noopener" href="' + url + '"';
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest("a[data-app]");
+  if (!a) return;
+  e.preventDefault();
+  const web = a.href;
+  location.href = a.dataset.app;
+  setTimeout(() => { if (!document.hidden) location.href = web; }, 1500);
+});
