@@ -120,6 +120,12 @@
   }
 
   // ---------- results: quẹt kiểu Tinder ----------
+  // bỏ phần quảng cáo sau "|" và ghi chú trong ngoặc ở cuối tên cho gọn
+  function shortName(n) {
+    const s = n.split(/\s+[|｜]\s+/)[0].replace(/\s*[(\[][^()\[\]]*[)\]]\s*$/, "").trim();
+    return s.length >= 4 ? s : n;
+  }
+
   function cardHTML(p, i) {
     const g = GRADS[i % GRADS.length];
     const em = EMOJI[p.type][i % 4];
@@ -137,7 +143,7 @@
         '<div class="hero" style="background:linear-gradient(135deg,' + g[0] + "," + g[1] + ')">' +
           '<span class="rank">#' + (i + 1) + " " + PLABEL[k] + "</span>" +
           '<span class="emoji">' + ic(em) + "</span>" +
-          "<div><h2>" + esc(p.name) + '</h2><div class="cat">' + esc(p.cat) + " · " + esc(p.district) + "</div></div>" +
+          "<div><h2" + (shortName(p.name).length > 34 ? ' class="long"' : "") + ' title="' + esc(p.name) + '">' + esc(shortName(p.name)) + '</h2><div class="cat">' + esc(p.cat) + " · " + esc(p.district) + "</div></div>" +
         "</div>" +
         '<div class="body">' +
           '<div class="gg"><span class="stars"><i>' + ic("star") + '</i>' + p.rating.toFixed(1) + '</span><span class="rev">' + fmt(p.reviews) + ' đánh giá Google</span><span class="open">' + ic("check") + ' Đang hoạt động</span></div>' +
