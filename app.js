@@ -167,90 +167,73 @@
     $("sub").textContent = what + " · " + (state.districts.size ? [...state.districts].join(", ") : "Mọi quận");
   }
 
-  function renderStack() {
-    const L = state.list, i = state.idx, d = $("deck");
+  // quán còn lại trong lượt này (quán đã chấm thì ẩn, hoàn tác thì hiện lại)
+  const left = () => state.list.filter((p) => !SW[p.pid]);
+
+  function updateTop() {
+    const V = left(), i = state.idx;
     $("sw-undo").disabled = !state.hist.length;
-    ["sw-nope", "sw-been", "sw-like"].forEach((id) => ($(id).disabled = i >= L.length));
-    $("count").innerHTML = i < L.length ? "Quán <b>" + (i + 1) + "</b> / " + L.length : "Hết quán";
+    ["sw-nope", "sw-been", "sw-like"].forEach((id) => ($(id).disabled = !V.length));
+    $("count").innerHTML = V.length ? "Quán <b>" + (i + 1) + "</b> / " + V.length : "Hết quán";
     const n = Object.values(SW).filter((x) => x.a === "like").length;
     $("rinfo").innerHTML = n ? ic("heart") + " " + n + " quán muốn đi" : "";
-    if (i >= L.length) {
-      d.innerHTML = '<div class="done"><b>' + ic("party") + '</b>' + (L.length ? "Anh đã quẹt hết quán hợp gu này rồi." : "Chưa có quán mới khớp gu này.") +
+  }
+
+  function renderStack() {
+    const V = left(), d = $("deck");
+    state.idx = Math.max(0, Math.min(state.idx, V.length - 1));
+    if (!V.length) {
+      d.innerHTML = '<div class="done"><b>' + ic("party") + '</b>' + (state.list.length ? "Anh đã chấm hết quán hợp gu này rồi." : "Chưa có quán mới khớp gu này.") +
         '<button class="btn p" id="d-again">Chọn gu khác</button><button class="btn s" id="d-mine">Xem quán của anh ' + ic("heart") + '</button></div>';
       $("d-again").onclick = () => show("quiz");
       $("d-mine").onclick = () => show("mine");
+      updateTop();
       return;
     }
-    d.innerHTML = state.list.slice(i, i + 3).map((p, k) => cardHTML(p, i + k)).reverse().join("");
-    const arr = [...d.children];
-    arr.forEach((c, k) => {
-      const depth = arr.length - 1 - k;
-      c.style.zIndex = 10 - depth;
-      if (depth) { c.style.transform = "translateY(" + depth * 10 + "px) scale(" + (1 - depth * 0.04) + ")"; c.style.pointerEvents = "none"; }
-    });
-    const top = d.lastElementChild;
-    top.insertAdjacentHTML("afterbegin", STAMPS);
-    drag(top);
+    d.innerHTML = V.map((p) => cardHTML(p, state.list.indexOf(p))).join("");
+    goTo(state.idx, false);
+    updateTop();
   }
 
-  function stamp(c, dx, dy) {
-    const s = c.querySelectorAll(".stamp");
-    if (!s.length) return;
-    const up = dy < -40 && Math.abs(dy) > Math.abs(dx);
-    s[0].style.opacity = !up && dx > 0 ? Math.min(1, dx / 100) : 0;
-    s[1].style.opacity = !up && dx < 0 ? Math.min(1, -dx / 100) : 0;
-    s[2].style.opacity = up ? Math.min(1, -dy / 110) : 0;
+  function goTo(i, smooth) {
+    const c = $("deck").children[i];
+    if (c) $("deck").scrollTo({ left: c.offsetLeft - 14, behavior: smooth ? "smooth" : "auto" });
   }
 
-  function drag(c) {
-    let sx = 0, sy = 0, dx = 0, dy = 0, id = null, moved = false;
-    c.addEventListener("pointerdown", (e) => {
-      if (e.button > 0) return;
-      id = e.pointerId; sx = e.clientX; sy = e.clientY; dx = dy = 0; moved = false;
-      c.style.transition = "none";
-    });
-    c.addEventListener("pointermove", (e) => {
-      if (e.pointerId !== id) return;
-      dx = e.clientX - sx; dy = e.clientY - sy;
-      if (!moved && Math.hypot(dx, dy) > 8) { moved = true; try { c.setPointerCapture(id); } catch (_) {} }
-      if (moved) { c.style.transform = "translate(" + dx + "px," + dy + "px) rotate(" + dx / 18 + "deg)"; stamp(c, dx, dy); }
-    });
-    const end = (e) => {
-      if (e.pointerId !== id) return;
-      id = null;
-      if (!moved) return;
-      const up = dy < -110 && Math.abs(dy) > Math.abs(dx);
-      const a = up ? "been" : dx > 100 ? "like" : dx < -100 ? "nope" : null;
-      if (a) fly(a, c, dx, dy);
-      else { c.style.transition = "transform .25s"; c.style.transform = ""; stamp(c, 0, 0); }
-    };
-    c.addEventListener("pointerup", end);
-    c.addEventListener("pointercancel", end);
-    // vừa kéo xong thì không tính là bấm link
-    c.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
-  }
+  let st = 0;
+  $("deck").addEventListener("scroll", () => {
+    clearTimeout(st);
+    st = setTimeout(() => {
+      const d = $("deck"), c = d.firstElementChild;
+      if (!c || !c.classList.contains("card")) return;
+      const w = c.offsetWidth + 12;
+      const i = Math.max(0, Math.min(d.children.length - 1, Math.round(d.scrollLeft / w)));
+      if (i !== state.idx) { state.idx = i; updateTop(); }
+    }, 60);
+  }, { passive: true });
 
   let busy = false;
-  function fly(a, c, dx, dy) {
-    c = c || $("deck").lastElementChild;
-    const p = state.list[state.idx];
-    if (busy || !c || !p || !c.classList.contains("card")) return;
+  function fly(a) {
+    const V = left(), p = V[state.idx], c = $("deck").children[state.idx];
+    if (busy || !p || !c || !c.classList.contains("card")) return;
     busy = true;
-    const W = window.innerWidth * 1.4;
-    const to = a === "like" ? [W, dy || 0] : a === "nope" ? [-W, dy || 0] : [dx || 0, -window.innerHeight * 1.2];
-    stamp(c, a === "like" ? 200 : a === "nope" ? -200 : 0, a === "been" ? -200 : 0);
-    c.style.transition = "transform .3s ease-in";
-    c.style.transform = "translate(" + to[0] + "px," + to[1] + "px) rotate(" + (a === "been" ? 0 : to[0] / 40) + "deg)";
+    c.insertAdjacentHTML("afterbegin", STAMPS);
+    const s = c.querySelector(".stamp." + a);
+    if (s) s.style.opacity = 1;
+    setTimeout(() => {
+      c.style.opacity = 0;
+      c.style.transform = a === "like" ? "translateX(40%) rotate(6deg)" : a === "nope" ? "translateX(-40%) rotate(-6deg)" : "translateY(-30%)";
+    }, 160);
     setSwipe(p.pid, a);
-    state.hist.push(p.pid);
-    state.idx++;
-    setTimeout(() => { busy = false; renderStack(); }, 260);
+    state.hist.push({ pid: p.pid, i: state.idx });
+    setTimeout(() => { busy = false; renderStack(); }, 460);
   }
 
   function undo() {
     if (busy || !state.hist.length) return;
-    setSwipe(state.hist.pop(), null);
-    state.idx--;
+    const h = state.hist.pop();
+    setSwipe(h.pid, null);
+    state.idx = h.i;
     renderStack();
   }
   $("sw-nope").onclick = () => fly("nope");
@@ -381,7 +364,7 @@
   $("go").addEventListener("click", showResults);
   $("btn-back").addEventListener("click", back);
   $("btn-share").addEventListener("click", async () => {
-    const p = state.list[state.idx];
+    const p = left()[state.idx];
     const onResults = cur === "results" && p;
     const data = onResults
       ? { title: "LakaSG", text: p.name + " – ★" + p.rating + " (" + fmt(p.reviews) + " review Google). " + p.verdict, url: p.mapsUrl }

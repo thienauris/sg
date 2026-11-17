@@ -80,9 +80,11 @@
     /* ---------- results: quẹt kiểu Tinder ---------- */
     .rtop { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 8px 2px 8px; font-size: 12px; color: var(--muted); }
     .rtop b { color: var(--mocha); }
-    .deck { flex: 1; min-height: 0; position: relative; }
-    .card { position: absolute; inset: 0; touch-action: none; user-select: none; -webkit-user-select: none;
-      will-change: transform; transition: transform .25s;
+    .deck { flex: 1; min-height: 0; position: relative; display: flex; overflow-x: auto; overflow-y: hidden;
+      scroll-snap-type: x mandatory; gap: 12px; margin: 0 -14px; padding: 0 14px 6px; scroll-padding: 0 14px;
+      overscroll-behavior-x: contain; }
+    .card { position: relative; flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; min-height: 0;
+      transition: transform .28s ease-in, opacity .28s ease-in;
       background: #fff; border: 1px solid var(--line); border-radius: 24px; overflow: hidden;
       display: flex; flex-direction: column; box-shadow: 0 4px 18px rgba(61,49,42,.06); }
     .hero { position: relative; flex: 1 1 auto; min-height: 92px; padding: 14px 16px;
@@ -128,7 +130,7 @@
     .swb button:disabled { opacity: .35; }
     .swb small { display: block; }
     .hint { flex: none; text-align: center; font-size: 11px; color: var(--muted); padding-top: 6px; }
-    .done { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    .done { flex: 0 0 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
       text-align: center; color: var(--muted); font-size: 15px; padding: 20px; background: #fff; border: 1px dashed var(--line); border-radius: 24px; }
     .done b { font-size: 40px; }
 
@@ -251,14 +253,14 @@
     <!-- MÀN 2: KẾT QUẢ – quẹt kiểu Tinder -->
     <main id="results" class="screen hidden">
       <div class="rtop"><span id="count"></span><span id="rinfo"></span></div>
-      <div class="deck" id="deck"></div>
+      <div class="deck noscroll" id="deck"></div>
       <div class="swb">
         <button class="un" id="sw-undo" aria-label="Hoàn tác"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></g></svg></button>
         <button class="x" id="sw-nope" aria-label="Không thích"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg></button>
         <button class="ok" id="sw-been" aria-label="Đi rồi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></svg></button>
         <button class="lv" id="sw-like" aria-label="Muốn đi"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button>
       </div>
-      <p class="hint">Quẹt trái: không thích · Quẹt lên: đi rồi · Quẹt phải: muốn đi</p>
+      <p class="hint">Vuốt ngang để xem quán · bấm nút để chấm quán đang xem</p>
     </main>
 
     <!-- MÀN 3: QUÁN CỦA ANH + TÀI KHOẢN -->
