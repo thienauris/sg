@@ -1121,6 +1121,13 @@ window.PLACES_DATA = [
 ];
 window.PLACES_DATA.forEach((p, i) => {
   p.id = "p" + i;
-  p.mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.name) + "&query_place_id=" + p.pid;
-  p.dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(p.name) + "&destination_place_id=" + p.pid;
+  const q = encodeURIComponent(p.name + ", " + p.address);
+  // không có origin => Google Maps tự lấy vị trí hiện tại của máy
+  p.mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + q + "&query_place_id=" + p.pid;
+  p.dirUrl = "https://www.google.com/maps/dir/?api=1&destination=" + q + "&destination_place_id=" + p.pid;
 });
+
+// Android: mở thẳng app Google Maps (nếu máy chưa cài app thì quay về bản web)
+window.mapLink = (url) => /Android/i.test(navigator.userAgent)
+  ? 'href="intent://' + url.replace(/^https:\/\//, "") + '#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=' + encodeURIComponent(url) + ';end"'
+  : 'target="_blank" rel="noopener" href="' + url + '"';
