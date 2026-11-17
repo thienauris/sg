@@ -134,8 +134,8 @@
     const hid = Object.keys(SW).length;
     $("foot").textContent = n
       ? "Có " + n + (n === 40 ? "+" : "") + " quán hợp gu" + (hid ? " (đã ẩn " + hid + " quán anh quẹt rồi)" : "") + " · số liệu Google Maps " + window.CHECKED_AT
-      : "Chưa có quán nào khớp – thử chọn thêm quận hoặc món khác nhé";
-    $("go").disabled = !n;
+      : (nearDistricts().length ? "Anh chấm hết quán ở đây rồi – bấm Nghía thử để tìm thêm ở " + nearDistricts().join(", ") : "Chưa có quán nào khớp – thử chọn thêm quận hoặc món khác nhé");
+    $("go").disabled = !n && !nearDistricts().length;
   }
 
   // ---------- results: quẹt kiểu Tinder ----------
@@ -398,7 +398,7 @@
     });
   }
 
-  $("go").addEventListener("click", showResults);
+  $("go").addEventListener("click", () => { if (!pick().length) { nearDistricts().forEach((d) => state.districts.add(d)); } showResults(); });
   $("btn-back").addEventListener("click", back);
   $("btn-share").addEventListener("click", async () => {
     const p = left()[state.idx];
